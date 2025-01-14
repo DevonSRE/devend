@@ -10,11 +10,11 @@ const Footer = () => {
             <div className="md:flex gap-8">
               <div className="mb-4">
                 <p className="text-sm">Email:</p>
-                <p className="text-xl">info@devend.com</p>
+                <p className="text-lg">info@devend.com</p>
               </div>
               <div>
                 <p className="text-sm">Telephone:</p>
-                <p className="text-xl">+234 (803) 000 0000</p>
+                <p className="text-lg">+234 (803) 000 0000</p>
               </div>
             </div>
 
@@ -37,12 +37,12 @@ const Footer = () => {
             <p className="md:text-4xl text-2xl font-semibold">Let's Get Started</p>
             <div className="md:grid grid-cols-2 gap-4 my-10">
               <div className="mb-8 md:mb-0">
-                <p className="text-sm text-[#cccccc]">Name</p>
-                <div className="border-t border-[#ccccc] my-3"></div>
+                <p className="text-sm text-[#ccc]">Name</p>
+                <div className="border-t border-[#ccc] my-3"></div>
               </div>
               <div className="mb-8 md:mb-0">
                 <p className="text-sm text-[#cccccc]">Email</p>
-                <div className="border-t border-[#cccccc] my-3"></div>
+                <div className="border-t border-[#ccc] my-3"></div>
               </div>
             </div>
 

@@ -14,14 +14,14 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between md:px-40 px-6 py-3 bg-[#211434]">
+      <div className="flex justify-between md:px-40 px-6 py-3 bg-[rgb(33,20,52)]">
         <Image src={devendLogo} alt='Logo of Devend'/>
         <div className="hidden md:flex space-x-10 text-sm font-normal py-4">
-          <Link href="/" className={`${pathname === "/" ? "underline underline-offset-8 decoration-white" : "no-underline"} text-white text-sm`}>Home</Link>
-          <Link href="/aboutus" className={`${pathname === "/aboutus" ? "underline underline-offset-8 decoration-white" : "no-underline"} text-white`}>About Us</Link>
-          <Link href="/contact" className={`${pathname === "/services" ? "underline underline-offset-8 decoration-white" : "no-underline"} text-white`}>Services</Link>
-          <Link href="/contact" className={`${pathname === "/client" ? "underline underline-offset-8 decoration-white" : "no-underline"} text-white`}>Client Stories</Link>
-          <Link href="/contact" className={`${pathname === "/contact" ? "underline underline-offset-8 decoration-white" : "no-underline"} text-white`}>Contact</Link>
+          <Link href="/" className={`${pathname === "/" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white text-sm`}>Home</Link>
+          <Link href="/about" className={`${pathname === "/about" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>About Us</Link>
+          <Link href="/services" className={`${pathname === "/services" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Services</Link>
+          <Link href="/client" className={`${pathname === "/client" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Client Stories</Link>
+          <Link href="/contact" className={`${pathname === "/contact" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Contact</Link>
         </div>
 
         <div className="hidden md:flex gap-8 mt-2">
@@ -72,7 +72,7 @@ export default function Navbar() {
             </li>
 
             <li className="py-4 text-2xl">
-              <Link href="/aboutus" onClick={handleClick}>About Us</Link>
+              <Link href="/about" onClick={handleClick}>About Us</Link>
             </li>
 
             <li className="py-4 text-2xl">
