@@ -2,6 +2,7 @@ import Image from "next/image";
 import groupImg from "../../../public/group_img.png";
 import uniqueImg from "../../../public/unique_img.png";
 import Footer from "../home/footer/page";
+import Link from "next/link";
 
 const About = () => {
   return (
@@ -65,7 +66,7 @@ const About = () => {
                 <p className="text-sm">Years of Experience</p>
               </div>
             </div>
-            
+
             <div className="border-t border-[#ccc] my-8"></div>
           </div>
         </div>
@@ -94,95 +95,136 @@ const About = () => {
               <p className="font-semibold">PERSONAL</p>
               <p>Clients</p>
             </div>
-
           </div>
           <div className="border-t border-[#ccc] my-8"></div>
         </div>
       </div>
 
-      <div className='md:flex justify-center text-[#211434] my-8 px-4'>
-        <div className='md:flex md:space-x-10'>
-          <Image src={uniqueImg} className="mb-10 md:w-2/4 md:mb-0 px-1 md:h-[600px] h-[400px]"/>
-      
+      <div className="md:flex justify-center text-[#211434] my-8 px-4">
+        <div className="md:flex md:space-x-10">
+          <Image
+            src={uniqueImg}
+            className="mb-10 md:w-2/4 md:mb-0 px-1 md:h-[600px] h-[400px]"
+          />
+
           <div className="md:py-2">
-            <h3 className='text-2xl md:text-4xl font-semibold mb-6'>What Makes Us Unique</h3>
+            <h3 className="text-2xl md:text-4xl font-semibold mb-6">
+              What Makes Us Unique
+            </h3>
 
-            <div className='text-left'>
-              <h4 className="mb-1 font-semibold text-sm">Tailored Experience</h4>
-              <p className='text-sm mt-2'>Every event reflects the client's unique tastes and preferences.</p>
+            <div className="text-left">
+              <h4 className="mb-1 font-semibold text-sm">
+                Tailored Experience
+              </h4>
+              <p className="text-sm mt-2">
+                Every event reflects the client's unique tastes and preferences.
+              </p>
               <div className="border-t border-[#ccc] my-5"></div>
             </div>
 
-            <div className='text-left'>
+            <div className="text-left">
               <h4 className="mb-1 font-semibold text-sm">Customizable Menus</h4>
-              <p className='text-sm mt-2'>Catering solutions crafted to accommodate diverse dietary needs  and cultural nuances.</p>
+              <p className="text-sm mt-2">
+                Catering solutions crafted to accommodate diverse dietary needs
+                and cultural nuances.
+              </p>
               <div className="border-t border-[#ccc] my-5"></div>
             </div>
 
-            <div className='text-left'>
-              <h4 className="mb-1 font-semibold text-sm">Tailored Experience</h4>
-              <p className='text-sm mt-2'>Every event reflects the client's unique tastes and preferences.</p>
+            <div className="text-left">
+              <h4 className="mb-1 font-semibold text-sm">
+                Tailored Experience
+              </h4>
+              <p className="text-sm mt-2">
+                Every event reflects the client's unique tastes and preferences.
+              </p>
               <div className="border-t border-[#ccc] my-5"></div>
             </div>
 
-            <div className='text-left'>
-              <h4 className="mb-1 font-semibold text-sm">Industry Innovation</h4>
-              <p className='text-sm mt-2'>We leverage modern trends and technology to enhance the event  experience.</p>
+            <div className="text-left">
+              <h4 className="mb-1 font-semibold text-sm">
+                Industry Innovation
+              </h4>
+              <p className="text-sm mt-2">
+                We leverage modern trends and technology to enhance the event
+                experience.
+              </p>
               <div className="border-t border-[#ccc] my-5"></div>
             </div>
 
-            <div className='text-left'>
-              <h4 className="mb-1 font-semibold text-sm">Reliability and Efficiency</h4>
-              <p className='text-sm mt-2'>A streamlined approach to logistics ensures everything is  executed seamlessly.</p>
+            <div className="text-left">
+              <h4 className="mb-1 font-semibold text-sm">
+                Reliability and Efficiency
+              </h4>
+              <p className="text-sm mt-2">
+                A streamlined approach to logistics ensures everything is
+                executed seamlessly.
+              </p>
               <div className="border-t border-[#ccc] my-5"></div>
             </div>
 
-            <div className='text-left'>
-              <h4 className="mb-1 font-semibold text-sm">Client-Centered Approach</h4>
-              <p className='text-sm mt-2'> Personalized attention and strong relationships remain our  hallmark.</p>
+            <div className="text-left">
+              <h4 className="mb-1 font-semibold text-sm">
+                Client-Centered Approach
+              </h4>
+              <p className="text-sm mt-2">
+                {" "}
+                Personalized attention and strong relationships remain our
+                hallmark.
+              </p>
             </div>
-
           </div>
         </div>
       </div>
 
-      <div className="border-t border-[#ccc] my-8 md:mt-20"></div>
       {/* Experience */}
-      
-      <div className="flex justify-center">
+      <div className="border-t border-[#ccc] my-8"></div>
+
+      <div className="flex justify-center text-[#211434]">
         <div className="text-center ">
-          <p className="md:text-4xl text-3xl font-semibold">Let's Create an Unforgettable Experience</p>
-          <p className="mt-3 text-sm max-w-[650px] text-center">Plan your next event with ease. Our team handles every detail, from delicious catering and seamless logistics to personalized touches that make your celebration truly unforgettable.</p>
+          <p className="md:text-4xl text-3xl font-semibold">
+            Let's Create an Unforgettable Experience
+          </p>
+          <p className="mt-3 text-sm max-w-[650px] text-center">
+            Plan your next event with ease. Our team handles every detail, from
+            delicious catering and seamless logistics to personalized touches
+            that make your celebration truly unforgettable.
+          </p>
 
           <div className="hidden md:flex justify-center gap-4">
-            <button className="bg-[#FAF7FE] border border-[#211434] text-[#211434] text-sm font-semibold px-10 py-3 rounded-lg mt-5">
-              See Our Services
-            </button>
-            <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
-              Get a Quote
-            </button>
+            <Link href="/services">
+              <button className="bg-[#FAF7FE] border border-[#211434] text-[#211434] text-sm font-semibold px-10 py-3 rounded-lg mt-5">
+                See Our Services
+              </button>
+            </Link>
+            <Link href="/contact">
+              <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
+                Get a Quote
+              </button>
+            </Link>
           </div>
 
           {/* Mobile Buttons */}
           <div className="md:hidden">
             <div>
-              <button className="bg-[#2A1C51] text-white text-sm px-14 py-3 rounded-lg mt-5">
-                Get a Quote
-              </button>
+              <Link href="/contact">
+                <button className="bg-[#2A1C51] text-white text-sm px-14 py-3 rounded-lg mt-5">
+                  Get a Quote
+                </button>
+              </Link>
             </div>
             <div>
-              <button className="bg-[#FAF7FE] border border-[#211434] text-[#211434] text-sm font-semibold px-10 py-3 rounded-lg mt-5">
-                See Our Services
-              </button>
+              <Link href="/services">
+                <button className="bg-[#FAF7FE] border border-[#211434] text-[#211434] text-sm font-semibold px-10 py-3 rounded-lg mt-5">
+                  See Our Services
+                </button>
+              </Link>
             </div>
           </div>
-          
-
         </div>
       </div>
 
       <div className="border-t border-[#ccccc] my-8"></div>
-
 
       <Footer />
     </div>

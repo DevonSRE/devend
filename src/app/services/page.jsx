@@ -1,3 +1,4 @@
+import Link from "next/link";
 import eventImgOne from "../../../public/event_one.png";
 import eventImgThree from "../../../public/event_three.png";
 import eventImgTwo from "../../../public/event_two.png";
@@ -105,9 +106,11 @@ const Services = () => {
                 décor, and hand-built elements that leave a lasting impression.
                 Let's bring your vision to life.
               </p>
-              <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
-                Get a Quote
-              </button>
+              <Link href="/contact">
+                <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
+                  Get a Quote
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -124,9 +127,11 @@ const Services = () => {
                 dinners to vibrant buffet spreads, we deliver impeccable service
                 and unforgettable flavors.
               </p>
-              <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
-                Get a Quote
-              </button>
+              <Link href="/contact">
+                <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
+                  Get a Quote
+                </button>
+              </Link>
             </div>
 
             <Image
@@ -155,9 +160,11 @@ const Services = () => {
                 efficient transportation and secure warehousing to on-site
                 support and seamless coordination.
               </p>
-              <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
-                Get a Quote
-              </button>
+              <Link href="/contact">
+                <button className="bg-[#2A1C51] text-white text-sm px-12 py-3 rounded-lg mt-5">
+                  Get a Quote
+                </button>
+              </Link>
             </div>
           </div>
         </div>

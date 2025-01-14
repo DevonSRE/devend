@@ -5,6 +5,7 @@ import coupleImg from '../../../../public/couple_img.png';
 import mobileTableImg from '../../../../public/mobile_table.png';
 import mobileGuestImg from '../../../../public/mobile_guest.png';
 import mobileCoupleImg from '../../../../public/mobile_couple.png';
+import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -18,9 +19,11 @@ const Hero = () => {
 
             </div>
             <div className='flex justify-center mt-4 -mb-8'>
-                <button className='text-white text-sm px-14 py-3 bg-[#2A1C51] rounded-md my-6'>
-                    Plan My Event
-                </button>
+                <Link href="/contact">
+                    <button className='text-white text-sm px-14 py-3 bg-[#2A1C51] rounded-md my-6'>
+                        Plan My Event
+                    </button>
+                </Link>
             </div>
 
             <div className='hidden md:flex gap-5 justify-center'>

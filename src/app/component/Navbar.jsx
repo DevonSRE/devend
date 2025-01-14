@@ -20,7 +20,7 @@ export default function Navbar() {
           <Link href="/" className={`${pathname === "/" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white text-sm`}>Home</Link>
           <Link href="/about" className={`${pathname === "/about" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>About Us</Link>
           <Link href="/services" className={`${pathname === "/services" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Services</Link>
-          <Link href="/client" className={`${pathname === "/client" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Client Stories</Link>
+          <Link href="/stories" className={`${pathname === "/stories" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Client Stories</Link>
           <Link href="/contact" className={`${pathname === "/contact" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white`}>Contact</Link>
         </div>
 
@@ -80,7 +80,7 @@ export default function Navbar() {
             </li>
 
             <li className="py-4 text-2xl">
-              <Link href="/client" onClick={handleClick}>Client Stories</Link>
+              <Link href="/stories" onClick={handleClick}>Client Stories</Link>
             </li>
 
             <li className="py-4 text-2xl">

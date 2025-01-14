@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import groupImg from '../../../../public/group_img.png'
+import Link from 'next/link';
 
 const Development = () => {
   return (
@@ -15,9 +16,11 @@ const Development = () => {
             We are passionate about creating unforgettable experiences.  We have been a leading event management and catering company in Nigeria, transforming clients' visions into reality. Learn more on how we can help you create an unforgettable experience.
           </p>
 
-          <button className='px-8 py-3 text-[#211434] bg-[#EDCC19] text-sm font-semibold rounded-md mt-8'>
-            Learn More
-          </button>
+          <Link href="/about">
+            <button className='px-8 py-3 text-[#211434] bg-[#EDCC19] text-sm font-semibold rounded-md mt-8'>
+              Learn More
+            </button>
+          </Link>
 
           <div className="border-t border-[#ccccc] my-8"></div>
 
