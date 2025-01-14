@@ -51,14 +51,14 @@ const Footer = () => {
               <div className="border-t border-[#ccccc] my-3"></div>
             </div>
 
-            <button className="bg-[#EDCC19] text-[#211434] px-6 py-3 rounded-lg mt-5">
+            <button className="text-white border-white border px-6 py-3 rounded-lg mt-5">
               Send Message
             </button>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#2A1C51] md:px-20 px-6 md:py-4 py-10 text-white text-sm">
+      <div className="bg-[#2A1C51] md:px-20 px-6 md:py-2 py-10 text-white text-sm">
         <div>
           <div className="flex justify-center md:space-x-14 space-x-3 my-4">
             <Link href="">Home</Link>
