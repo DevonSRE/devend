@@ -14,7 +14,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between md:px-40 px-6 py-3 bg-[rgb(33,20,52)]">
+      <div className="flex justify-between lg:px-40 px-6 py-3 bg-[rgb(33,20,52)]">
         <Image src={devendLogo} alt='Logo of Devend'/>
         <div className="hidden md:flex space-x-10 text-sm font-normal py-4">
           <Link href="/" className={`${pathname === "/" ? "underline underline-offset-8 decoration-[#EDCC19]" : "no-underline"} text-white text-sm`}>Home</Link>
