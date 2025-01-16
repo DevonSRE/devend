@@ -55,7 +55,7 @@ const Clients = () => {
       {/* Experience */}
       <div className="border-t border-[#ccc] my-8"></div>
       
-      <div className="flex justify-center text-[#211434]">
+      <div className="flex justify-center text-[#211434] px-4">
         <div className="text-center ">
           <p className="md:text-4xl text-3xl font-semibold">Let's Create an Unforgettable Experience</p>
           <p className="mt-3 text-sm max-w-[650px] text-center">Plan your next event with ease. Our team handles every detail, from delicious catering and seamless logistics to personalized touches that make your celebration truly unforgettable.</p>

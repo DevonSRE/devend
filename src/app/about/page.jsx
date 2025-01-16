@@ -181,7 +181,7 @@ const About = () => {
       {/* Experience */}
       <div className="border-t border-[#ccc] my-8"></div>
 
-      <div className="flex justify-center text-[#211434]">
+      <div className="flex justify-center text-[#211434] px-4">
         <div className="text-center ">
           <p className="md:text-4xl text-3xl font-semibold">
             Let's Create an Unforgettable Experience
