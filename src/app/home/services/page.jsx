@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Services = () => {
@@ -14,21 +15,21 @@ const Services = () => {
 
         <div className="my-4">
           <div className="grid md:grid-cols-3 grid-cols-1 mb-3 gap-4">
-            <div className="px-10 py-4 rounded-lg border border-[#2A1C51]">
+            <div className="mx-14 md:mx-0 px-10 py-4 rounded-xl md:rounded-lg border border-[#2A1C51]">
               Wedding Ceremony
             </div>
-            <div className="px-10 py-4 rounded-lg border border-[#2A1C51]">
+            <div className="mx-20 md:mx-0 px-10 py-4 rounded-xl md:rounded-lg border border-[#2A1C51]">
               Private Parties
             </div>
-            <div className="px-10 py-4 rounded-lg border border-[#2A1C51]">
+            <div className="mx-24 md:mx-0 px-10 py-4 rounded-xl md:rounded-lg border border-[#2A1C51]">
               Gala Dinners
             </div>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 mb-3 gap-4 px-4">
-            <div className="px-6 py-4 rounded-lg border border-[#2A1C51]">
+            <div className="px-6 py-4 rounded-xl md:rounded-lg border border-[#2A1C51]">
               Celebrating Milestones, Birthdays
             </div>
-            <div className="px-6 py-4 rounded-lg border border-[#2A1C51]">
+            <div className="mx-14 md:mx-0 px-6 py-4 rounded-xl md:rounded-lg border border-[#2A1C51]">
               Product Launches
             </div>
           </div>
@@ -49,6 +50,12 @@ const Services = () => {
             </div>
           </div>
         </div>
+
+        <Link href="/services">
+          <button className="md:hidden mb-4 bg-[#2A1C51] text-white text-sm font-semibold px-10 py-3 rounded-lg mt-5">
+            View Our Services
+          </button>
+        </Link>
       </div>
     </div>
   );

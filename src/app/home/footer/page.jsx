@@ -61,11 +61,11 @@ const Footer = () => {
       <div className="bg-[#2A1C51] md:px-20 px-6 md:py-2 py-10 text-white text-sm">
         <div>
           <div className="flex justify-center md:space-x-14 space-x-3 my-4">
-            <Link href="">Home</Link>
-            <Link href="">About Us</Link>
-            <Link href="">Services</Link>
-            <Link href="">Client Stories</Link>
-            <Link href="">Contact</Link>
+            <Link href="/">Home</Link>
+            <Link href="/about">About Us</Link>
+            <Link href="/services">Services</Link>
+            <Link href="/stories">Client Stories</Link>
+            <Link href="/contact">Contact</Link>
           </div>
           <div className="border-t border-[#cccccc] my-4"></div>
 

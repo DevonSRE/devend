@@ -80,7 +80,7 @@ const About = () => {
             <div className="border-t border-[#ccc] mt-2"></div>
           </div>
 
-          <div className="flex gap6 my-6 md:space-x-60">
+          <div className="flex gap-6 px-6 my-6 md:space-x-60">
             <div>
               <p className="font-semibold">CORPORATE</p>
               <p>Clients</p>
@@ -104,6 +104,7 @@ const About = () => {
         <div className="md:flex md:space-x-10">
           <Image
             src={uniqueImg}
+            alt="An image of a beautifully decorated table"
             className="mb-10 md:w-2/4 md:mb-0 px-1 md:h-[600px] h-[400px]"
           />
 
