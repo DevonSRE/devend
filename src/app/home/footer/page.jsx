@@ -1,11 +1,11 @@
-import FooterForm from "@/app/component/FooterForm";
+import FooterForm from "@/app/_component/FooterForm";
 import Link from "next/link";
 import React from "react";
 
-const Footer = () => {
+const Footer = ({ showForm = true }) => {
   return (
     <>
-      <div className="bg-[#211434] flex justify-center text-white lg:px-40 px-6 py-20">
+      {showForm && <div className="bg-[#211434] flex justify-center text-white lg:px-40 px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <div className="md:flex gap-8">
@@ -38,10 +38,10 @@ const Footer = () => {
             <p className="md:text-4xl text-2xl font-semibold">
               Let's Get Started
             </p>
-            <FooterForm/>
+            <FooterForm />
           </div>
         </div>
-      </div>
+      </div>}
 
       <div className="bg-[#2A1C51] md:px-20 px-6 md:py-2 py-10 text-white text-sm">
         <div>

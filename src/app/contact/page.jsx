@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../home/footer/page";
-import ContactForm from "../component/ContactForm";
+import ContactForm from "../_component/ContactForm";
 
 const Contact = () => {
   return (
@@ -24,7 +24,7 @@ const Contact = () => {
             For event inquiries, please fill out the form below and one of our
             team members will get back to youwithin 24 hours.
           </p>
-          <ContactForm/>
+          <ContactForm />
         </div>
       </div>
       <Footer />
