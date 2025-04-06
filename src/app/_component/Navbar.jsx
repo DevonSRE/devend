@@ -20,8 +20,10 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="flex justify-between lg:px-40 px-6 py-3 bg-[rgb(33,20,52)]">
-      <Link href="/"><Image src={devendLogo} alt='Logo of Devend' /></Link>
+    <div className="flex justify-between items-center lg:px-40 px-6 py-3 bg-[rgb(33,20,52)]">
+      <Link href="/">
+        <Image src={devendLogo} alt='Logo of Devend' />
+      </Link>
 
       <div className="hidden md:flex space-x-10 text-sm font-normal py-4">
         {navLinks.map(link => (
@@ -42,20 +44,20 @@ export default function Navbar() {
       </div>
 
       <div className="md:hidden">
-        <div onClick={handleClick} className="cursor-pointer z-50">
+        <button onClick={handleClick} className="p-2 relative z-[999]">
           {!nav ? (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width={40} height={40}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width={32} height={32}>
               <path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path>
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width={40} height={40}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width={32} height={32}>
               <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
             </svg>
           )}
-        </div>
+        </button>
 
         {nav && (
-          <ul className="absolute top-0 left-0 w-full h-screen bg-[#211434] flex flex-col justify-center items-center text-white z-10">
+          <ul className="absolute top-[60px] left-0 h-[calc(100vh-60px)] bg-[#211434] flex flex-col justify-center items-center text-white z-[998] w-full">
             {navLinks.map(link => (
               <li key={link.href} className="py-4 text-2xl">
                 <Link href={link.href} onClick={handleClick}>{link.text}</Link>

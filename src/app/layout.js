@@ -15,6 +15,9 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata = {
+  metadataBase: process.env.NODE_ENV === 'production'
+    ? new URL('ttps://www.dev-end.org')
+    : new URL('http://localhost:3000'),
   title: "Devend | Premier Event Management & Logistics Services",
   description: "Creating unforgettable experiences with expert event planning, logistics, and catering services. Specializing in corporate events, weddings, and executive travel solutions.",
   keywords: [
@@ -45,7 +48,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://devend.com", //TODO: Change to the actual URL
+    url: "https://www.dev-end.org",
     site_name: "Devend",
     title: "Devend - Premier Event Management & Logistics Services",
     description: "Creating unforgettable experiences with expert event planning, logistics, and catering services.",
@@ -58,30 +61,13 @@ export const metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Devend - Premier Event Management & Logistics Services",
-    description: "Creating unforgettable experiences with expert event planning, logistics, and catering services.",
-    images: ["/opengraph-image.png"],
-    creator: "@devend",
-    site: "@devend",
-  },
+
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
+
 
   category: "Event Management and Logistics",
 };
