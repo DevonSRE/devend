@@ -7,14 +7,14 @@ import Hero from "./home/hero/page";
 import Services from "./home/services/page";
 
 export default function Home() {
-  return (
-    <div className="">
-      <Hero/>
-      <Development/>
-      <Services/>
-      <Clients/>
-      <Grid/>
-      <Footer/>
-    </div>
-  );
+    return (
+        <div className="">
+            <Hero />
+            <Development />
+            <Services />
+            <Clients />
+            <Grid />
+            <Footer />
+        </div>
+    );
 }

@@ -1,6 +1,6 @@
 import { Geist, Instrument_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "./component/Navbar";
+import Navbar from "./_component/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -15,8 +15,75 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata = {
-  title: "Devend",
-  description: "Creating unforgettable experiences",
+  title: "Devend | Premier Event Management & Logistics Services",
+  description: "Creating unforgettable experiences with expert event planning, logistics, and catering services. Specializing in corporate events, weddings, and executive travel solutions.",
+  keywords: [
+    "event management",
+    "corporate events",
+    "wedding planning",
+    "logistics services",
+    "catering services",
+    "executive travel",
+    "event planning Nigeria",
+    "corporate event management",
+    "luxury events",
+    "event logistics",
+    "professional event planners",
+    "corporate catering",
+    "event coordination",
+    "business events",
+    "conference planning"
+  ],
+  authors: [{ name: "Devend" }],
+  creator: "Devend",
+  publisher: "Devend",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://devend.com", //TODO: Change to the actual URL
+    site_name: "Devend",
+    title: "Devend - Premier Event Management & Logistics Services",
+    description: "Creating unforgettable experiences with expert event planning, logistics, and catering services.",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Devend Events and Logistics",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Devend - Premier Event Management & Logistics Services",
+    description: "Creating unforgettable experiences with expert event planning, logistics, and catering services.",
+    images: ["/opengraph-image.png"],
+    creator: "@devend",
+    site: "@devend",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },
+
+  category: "Event Management and Logistics",
 };
 
 export default function RootLayout({ children }) {
@@ -26,11 +93,11 @@ export default function RootLayout({ children }) {
         className={`${instrumentSans.variable} ${geistSans.variable}  antialiased`}
       >
         <header>
-          <Navbar/>
+          <Navbar />
         </header>
         {children}
 
-        <Toaster richColors/>
+        <Toaster richColors />
       </body>
     </html>
   );
