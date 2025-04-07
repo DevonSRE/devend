@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { toast } from "sonner";
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,10 +45,92 @@ export default function Page() {
   const [toDate, setToDate] = useState(undefined);
   const [eventDate, setEventDate] = useState(undefined);
 
-  const handleSubmit = (e) => {
+  // Form state
+  const [values, setValues] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    date: "",
+    needs: "",
+    budget: "",
+    guest: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [checkedItems, setCheckedItems] = useState({});
+
+  // Form validation
+  const validate = (values, checkedItems) => {
+    const errors = {};
+    if (!values.firstname) errors.firstname = "First name is required";
+    if (!values.lastname) errors.lastname = "Last name is required";
+    if (!values.email) errors.email = "Email is required";
+    if (!values.phone) errors.phone = "Phone number is required";
+    if (!values.date) errors.date = "Date is required";
+    if (!values.needs) errors.needs = "Planning needs are required";
+    if (!values.budget) errors.budget = "Budget is required";
+    if (!values.guest) errors.guest = "Guest count is required";
+
+    if (!Object.values(checkedItems).some(Boolean)) {
+      errors.eventType = "Please select at least one event type";
+    }
+
+    return errors;
+  };
+
+  // Form handlers
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted');
+    const validationErrors = validate(values, checkedItems);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        body: JSON.stringify({ ...values, eventTypes: checkedItems, service: 'logistics' }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+        setValues({
+          firstname: "",
+          lastname: "",
+          email: "",
+          phone: "",
+          date: "",
+          needs: "",
+          budget: "",
+          guest: "",
+          message: "",
+        });
+        setCheckedItems({});
+      } else {
+        toast.error("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setCheckedItems(prev => ({ ...prev, [name]: checked }));
   };
 
   return (

@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { toast } from "sonner";
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,28 +26,92 @@ import { format } from 'date-fns';
 import cateringService from '../../../../public/catering-service-1.png';
 import TestimonialCarousel from '@/app/_component/TestimonialCarousel';
 
-const eventTypes = [
-	{ id: 'wedding-ceremony', label: 'Wedding Ceremony' },
-	{ id: 'private-party', label: 'Private Party' },
-	{ id: 'gala-dinner', label: 'Gala Dinner' },
-	{ id: 'milestone-birthday', label: 'Celebrating a Milestone/Birthday' },
-	{ id: 'product-launch', label: 'Product Launch' },
-	{ id: 'campaign', label: 'Campaign' },
-	{ id: 'fundraising-event', label: 'Fundraising Event' },
-	{ id: 'corporate-event', label: 'Corporate Event' },
-	{ id: 'conference', label: 'Conference' },
-	{ id: 'ngos', label: 'NGOs' },
-	{ id: 'logistics', label: 'Logistics' },
-	{ id: 'others', label: 'Others' },
-];
 
 export default function Page() {
 	const [eventDate, setEventDate] = useState(undefined);
+	const [values, setValues] = useState({
+		firstname: "",
+		lastname: "",
+		email: "",
+		phone: "",
+		date: "",
+		needs: "",
+		budget: "",
+		guest: "",
+		message: "",
+	});
+	const [errors, setErrors] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
+	const [checkedItems, setCheckedItems] = useState({});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Handle form submission logic here
-		console.log('Form submitted');
+		const validationErrors = validate(values, checkedItems);
+		setErrors(validationErrors);
+
+		if (Object.keys(validationErrors).length > 0) return;
+
+		setIsLoading(true);
+		try {
+			const response = await fetch("/api/send-email", {
+				method: "POST",
+				body: JSON.stringify({ ...values, eventTypes: checkedItems }),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				toast.success("Message sent successfully!");
+				setValues({
+					firstname: "",
+					lastname: "",
+					email: "",
+					phone: "",
+					date: "",
+					needs: "",
+					budget: "",
+					guest: "",
+					message: "",
+				});
+				setCheckedItems({});
+			} else {
+				toast.error("Failed to send message. Please try again.");
+			}
+		} catch (error) {
+			toast.error("An error occurred. Please try again.");
+			console.error(error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setValues(prev => ({ ...prev, [name]: value }));
+	};
+
+	const handleCheckboxChange = (e) => {
+		const { name, checked } = e.target;
+		setCheckedItems(prev => ({ ...prev, [name]: checked }));
+	};
+
+	const validate = (values, checkedItems) => {
+		const errors = {};
+		if (!values.firstname) errors.firstname = "First name is required";
+		if (!values.lastname) errors.lastname = "Last name is required";
+		if (!values.email) errors.email = "Email is required";
+		if (!values.phone) errors.phone = "Phone number is required";
+		if (!values.date) errors.date = "Date is required";
+		if (!values.needs) errors.needs = "Planning needs are required";
+		if (!values.budget) errors.budget = "Budget is required";
+		if (!values.guest) errors.guest = "Guest count is required";
+
+		if (!Object.values(checkedItems).some(Boolean)) {
+			errors.eventType = "Please select at least one event type";
+		}
+
+		return errors;
 	};
 
 	return (
@@ -187,8 +251,8 @@ export default function Page() {
 							<div className='flex flex-col sm:flex-row justify-center gap-2 sm:gap-8'>
 								<p>
 									Email:{' '}
-									<a href='mailto:info@devend.com' className='font-medium hover:text-[#2e1a47]'>
-										info@devend.com
+									<a href='mailto:info@dev-end.org' className='font-medium hover:text-[#2e1a47]'>
+										info@dev-end.org
 									</a>
 								</p>
 								<p>
@@ -209,23 +273,69 @@ export default function Page() {
 					<form onSubmit={handleSubmit} className='space-y-6 md:space-y-8'>
 						<div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
 							<div className='space-y-1.5 md:space-y-2'>
-								<Label htmlFor='firstName' className='text-sm sm:text-base'>First Name</Label>
-								<Input id='firstName' placeholder='required**' required className='text-sm sm:text-base' />
+								<Label htmlFor='firstname' className='text-sm sm:text-base'>First Name</Label>
+								<Input
+									id='firstname'
+									name='firstname'
+									placeholder='required**'
+									value={values.firstname}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.firstname && (
+									<p className="text-red-500 text-xs mt-1">{errors.firstname}</p>
+								)}
 							</div>
 							<div className='space-y-1.5 md:space-y-2'>
-								<Label htmlFor='lastName' className='text-sm sm:text-base'>Last Name</Label>
-								<Input id='lastName' placeholder='required**' required className='text-sm sm:text-base' />
+								<Label htmlFor='lastname' className='text-sm sm:text-base'>Last Name</Label>
+								<Input
+									id='lastname'
+									name='lastname'
+									placeholder='required**'
+									value={values.lastname}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.lastname && (
+									<p className="text-red-500 text-xs mt-1">{errors.lastname}</p>
+								)}
 							</div>
 						</div>
 
 						<div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
 							<div className='space-y-1.5 md:space-y-2'>
 								<Label htmlFor='email' className='text-sm sm:text-base'>Email Address</Label>
-								<Input id='email' type='email' placeholder='required**' required className='text-sm sm:text-base' />
+								<Input
+									id='email'
+									name='email'
+									type='email'
+									placeholder='required**'
+									value={values.email}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.email && (
+									<p className="text-red-500 text-xs mt-1">{errors.email}</p>
+								)}
 							</div>
 							<div className='space-y-1.5 md:space-y-2'>
 								<Label htmlFor='phone' className='text-sm sm:text-base'>Phone Number</Label>
-								<Input id='phone' type='tel' placeholder='required**' required className='text-sm sm:text-base' />
+								<Input
+									id='phone'
+									name='phone'
+									type='tel'
+									placeholder='required**'
+									value={values.phone}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.phone && (
+									<p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+								)}
 							</div>
 						</div>
 
@@ -246,7 +356,12 @@ export default function Page() {
 									'Others'
 								].map((type) => (
 									<div key={type} className='flex items-center space-x-2'>
-										<Checkbox id={`event-${type.toLowerCase().replace(/\s+/g, '-')}`} />
+										<Checkbox
+											id={`event-${type.toLowerCase().replace(/\s+/g, '-')}`}
+											name={`event-${type.toLowerCase().replace(/\s+/g, '-')}`}
+											checked={checkedItems[`event-${type.toLowerCase().replace(/\s+/g, '-')}`]}
+											onChange={handleCheckboxChange}
+										/>
 										<Label htmlFor={`event-${type.toLowerCase().replace(/\s+/g, '-')}`} className='text-sm sm:text-base font-normal'>
 											{type}
 										</Label>
@@ -257,12 +372,12 @@ export default function Page() {
 
 						<div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
 							<div className='space-y-2'>
-								<Label htmlFor='eventDate' className='text-sm sm:text-base'>Event Date</Label>
+								<Label htmlFor='date' className='text-sm sm:text-base'>Event Date</Label>
 								<Popover>
 									<PopoverTrigger asChild>
 										<Button variant='outline' className='w-full justify-start text-left font-normal'>
-											{eventDate ? (
-												format(eventDate, 'MM/dd/yy')
+											{values.date ? (
+												format(new Date(values.date), 'MM/dd/yy')
 											) : (
 												<span className='text-muted-foreground'>mm/dd/yy</span>
 											)}
@@ -270,41 +385,78 @@ export default function Page() {
 										</Button>
 									</PopoverTrigger>
 									<PopoverContent className='w-auto p-0' align='start'>
-										<Calendar mode='single' selected={eventDate} onSelect={setEventDate} initialFocus />
+										<Calendar mode='single' selected={new Date(values.date)} onSelect={(date) => setValues(prev => ({ ...prev, date: date?.toISOString().split('T')[0] }))} initialFocus />
 									</PopoverContent>
 								</Popover>
 							</div>
 							<div className='space-y-2'>
-								<Label htmlFor='planningNeeds' className='text-sm sm:text-base'>Planning Needs</Label>
-								<Input id='planningNeeds' placeholder='required**' required className='text-sm sm:text-base' />
+								<Label htmlFor='needs' className='text-sm sm:text-base'>Planning Needs</Label>
+								<Input
+									id='needs'
+									name='needs'
+									placeholder='required**'
+									value={values.needs}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.needs && (
+									<p className="text-red-500 text-xs mt-1">{errors.needs}</p>
+								)}
 							</div>
 						</div>
 
 						<div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
 							<div className='space-y-2'>
-								<Label htmlFor='estimatedBudget' className='text-sm sm:text-base'>Estimated Budget</Label>
-								<Input id='estimatedBudget' placeholder='required**' required className='text-sm sm:text-base' />
+								<Label htmlFor='budget' className='text-sm sm:text-base'>Estimated Budget</Label>
+								<Input
+									id='budget'
+									name='budget'
+									placeholder='required**'
+									value={values.budget}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.budget && (
+									<p className="text-red-500 text-xs mt-1">{errors.budget}</p>
+								)}
 							</div>
 							<div className='space-y-2'>
-								<Label htmlFor='guestCount' className='text-sm sm:text-base'>Estimated Guest Count</Label>
-								<Input id='guestCount' placeholder='required**' required className='text-sm sm:text-base' />
+								<Label htmlFor='guest' className='text-sm sm:text-base'>Estimated Guest Count</Label>
+								<Input
+									id='guest'
+									name='guest'
+									placeholder='required**'
+									value={values.guest}
+									onChange={handleChange}
+									required
+									className='text-sm sm:text-base'
+								/>
+								{errors.guest && (
+									<p className="text-red-500 text-xs mt-1">{errors.guest}</p>
+								)}
 							</div>
 						</div>
 
 						<div className='space-y-2'>
-							<Label htmlFor='additionalInfo' className='text-sm sm:text-base'>Additional Information</Label>
+							<Label htmlFor='message' className='text-sm sm:text-base'>Additional Information</Label>
 							<Textarea
-								id='additionalInfo'
+								id='message'
+								name='message'
 								placeholder='Is there anything else that you would like to tell us about your planning needs or vision for your event?'
+								value={values.message}
+								onChange={handleChange}
 								className='min-h-[120px] text-sm sm:text-base'
 							/>
 						</div>
 
 						<Button
-							type='submit'
-							className='w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259] text-white text-sm sm:text-base px-8 py-3'
+							type="submit"
+							disabled={isLoading}
+							className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259] text-white text-sm sm:text-base px-8 py-3"
 						>
-							Submit
+							{isLoading ? "Sending..." : "Submit"}
 						</Button>
 					</form>
 				</div>

@@ -1,7 +1,7 @@
 "use client"
 
-
 import { useState } from "react"
+import { toast } from "sonner"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -40,16 +40,152 @@ const logisticsTypes = [
 ]
 
 export default function LogisticsForm() {
-  // Separate state for each form
-  const [eventDate, setEventDate] = useState(undefined)
-  const [fromDate, setFromDate] = useState(undefined)
-  const [toDate, setToDate] = useState(undefined)
+  // Form states for both event and logistics forms
+  const [eventFormData, setEventFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    date: "",
+    needs: "",
+    budget: "",
+    guest: "",
+    message: "",
+    eventTypes: {},
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle form submission logic here
-    console.log("Form submitted")
-  }
+  const [logisticsFormData, setLogisticsFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    fromDate: "",
+    toDate: "",
+    origin: "",
+    destination: "",
+    cargoDetails: "",
+    message: "",
+    logisticsTypes: {},
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle event form input changes
+  const handleEventChange = (e) => {
+    const { name, value } = e.target;
+    setEventFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle logistics form input changes
+  const handleLogisticsChange = (e) => {
+    const { name, value } = e.target;
+    setLogisticsFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle event type checkbox changes
+  const handleEventTypeChange = (id) => {
+    setEventFormData(prev => ({
+      ...prev,
+      eventTypes: {
+        ...prev.eventTypes,
+        [id]: !prev.eventTypes[id]
+      }
+    }));
+  };
+
+  // Handle logistics type checkbox changes
+  const handleLogisticsTypeChange = (id) => {
+    setLogisticsFormData(prev => ({
+      ...prev,
+      logisticsTypes: {
+        ...prev.logisticsTypes,
+        [id]: !prev.logisticsTypes[id]
+      }
+    }));
+  };
+
+  // Handle date changes for event form
+  const handleEventDateChange = (date) => {
+    setEventFormData(prev => ({
+      ...prev,
+      date: date
+    }));
+  };
+
+  // Handle date changes for logistics form
+  const handleLogisticsDateChange = (type, date) => {
+    setLogisticsFormData(prev => ({
+      ...prev,
+      [type]: date
+    }));
+  };
+
+  // Form submission handler
+  const handleSubmit = async (e, formType) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const formData = formType === 'event' ? eventFormData : logisticsFormData;
+
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          service: formType
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Form submitted successfully!");
+        // Reset form data based on type
+        if (formType === 'event') {
+          setEventFormData({
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            date: "",
+            needs: "",
+            budget: "",
+            guest: "",
+            message: "",
+            eventTypes: {},
+          });
+        } else {
+          setLogisticsFormData({
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            fromDate: "",
+            toDate: "",
+            origin: "",
+            destination: "",
+            cargoDetails: "",
+            message: "",
+            logisticsTypes: {},
+          });
+        }
+      } else {
+        toast.error("Failed to submit form. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto my-16">
@@ -60,8 +196,8 @@ export default function LogisticsForm() {
           <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8">
             <p>
               Email:{" "}
-              <a href="mailto:info@devend.com" className="font-medium">
-                info@devend.com
+              <a href="mailto:info@dev-end.org" className="font-medium">
+                info@dev-end.org
               </a>
             </p>
             <p>
@@ -97,26 +233,56 @@ export default function LogisticsForm() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={(e) => handleSubmit(e, 'event')} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="eventFirstName">First Name</Label>
-                <Input id="eventFirstName" placeholder="required**" required />
+                <Label htmlFor="firstname">First Name</Label>
+                <Input
+                  id="firstname"
+                  name="firstname"
+                  value={eventFormData.firstname}
+                  onChange={handleEventChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="eventLastName">Last Name</Label>
-                <Input id="eventLastName" placeholder="required**" required />
+                <Label htmlFor="lastname">Last Name</Label>
+                <Input
+                  id="lastname"
+                  name="lastname"
+                  value={eventFormData.lastname}
+                  onChange={handleEventChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="eventEmail">Email Address</Label>
-                <Input id="eventEmail" type="email" placeholder="required**" required />
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  value={eventFormData.email}
+                  onChange={handleEventChange}
+                  type="email"
+                  placeholder="required**"
+                  required
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="eventPhone">Phone Number</Label>
-                <Input id="eventPhone" type="tel" placeholder="required**" required />
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={eventFormData.phone}
+                  onChange={handleEventChange}
+                  type="tel"
+                  placeholder="required**"
+                  required
+                />
               </div>
             </div>
 
@@ -125,7 +291,11 @@ export default function LogisticsForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {eventTypes.map((type) => (
                   <div key={type.id} className="flex items-center space-x-2">
-                    <Checkbox id={`event-${type.id}`} />
+                    <Checkbox
+                      id={`event-${type.id}`}
+                      checked={eventFormData.eventTypes[type.id] || false}
+                      onCheckedChange={() => handleEventTypeChange(type.id)}
+                    />
                     <Label htmlFor={`event-${type.id}`} className="font-normal">
                       {type.label}
                     </Label>
@@ -136,12 +306,12 @@ export default function LogisticsForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="eventDate">Event Date</Label>
+                <Label htmlFor="date">Event Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
-                      {eventDate ? (
-                        format(eventDate, "MM/dd/yy")
+                      {eventFormData.date ? (
+                        format(eventFormData.date, "MM/dd/yy")
                       ) : (
                         <span className="text-muted-foreground">mm/dd/yy</span>
                       )}
@@ -149,38 +319,66 @@ export default function LogisticsForm() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={eventDate} onSelect={setEventDate} initialFocus />
+                    <Calendar mode="single" selected={eventFormData.date} onSelect={handleEventDateChange} initialFocus />
                   </PopoverContent>
                 </Popover>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="planningNeeds">Planning Needs</Label>
-                <Input id="planningNeeds" placeholder="required**" required />
+                <Label htmlFor="needs">Planning Needs</Label>
+                <Input
+                  id="needs"
+                  name="needs"
+                  value={eventFormData.needs}
+                  onChange={handleEventChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="estimatedBudget">Estimated Budget</Label>
-                <Input id="estimatedBudget" placeholder="required**" required />
+                <Label htmlFor="budget">Estimated Budget</Label>
+                <Input
+                  id="budget"
+                  name="budget"
+                  value={eventFormData.budget}
+                  onChange={handleEventChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="guestCount">Estimated Guest Count</Label>
-                <Input id="guestCount" placeholder="required**" required />
+                <Label htmlFor="guest">Estimated Guest Count</Label>
+                <Input
+                  id="guest"
+                  name="guest"
+                  value={eventFormData.guest}
+                  onChange={handleEventChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="eventAdditional">Additional Information</Label>
+              <Label htmlFor="message">Additional Information</Label>
               <Textarea
-                id="eventAdditional"
+                id="message"
+                name="message"
+                value={eventFormData.message}
+                onChange={handleEventChange}
                 placeholder="Is there anything else that you would like to tell us about your planning needs or vision for your event?"
                 className="min-h-[120px]"
               />
             </div>
 
-            <Button type="submit" className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259]">
-              Submit
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259]"
+            >
+              {isLoading ? "Submitting..." : "Submit"}
             </Button>
           </form>
         </TabsContent>
@@ -192,26 +390,56 @@ export default function LogisticsForm() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={(e) => handleSubmit(e, 'logistics')} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" placeholder="required*" required />
+                <Label htmlFor="firstname">First Name</Label>
+                <Input
+                  id="firstname"
+                  name="firstname"
+                  value={logisticsFormData.firstname}
+                  onChange={handleLogisticsChange}
+                  placeholder="required*"
+                  required
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" placeholder="required*" required />
+                <Label htmlFor="lastname">Last Name</Label>
+                <Input
+                  id="lastname"
+                  name="lastname"
+                  value={logisticsFormData.lastname}
+                  onChange={handleLogisticsChange}
+                  placeholder="required*"
+                  required
+                />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="required*" required />
+                <Input
+                  id="email"
+                  name="email"
+                  value={logisticsFormData.email}
+                  onChange={handleLogisticsChange}
+                  type="email"
+                  placeholder="required*"
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="required*" required />
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={logisticsFormData.phone}
+                  onChange={handleLogisticsChange}
+                  type="tel"
+                  placeholder="required*"
+                  required
+                />
               </div>
             </div>
 
@@ -220,7 +448,11 @@ export default function LogisticsForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {logisticsTypes.map((type) => (
                   <div key={type.id} className="flex items-center space-x-2">
-                    <Checkbox id={`logistics-${type.id}`} />
+                    <Checkbox
+                      id={`logistics-${type.id}`}
+                      checked={logisticsFormData.logisticsTypes[type.id] || false}
+                      onCheckedChange={() => handleLogisticsTypeChange(type.id)}
+                    />
                     <Label htmlFor={`logistics-${type.id}`} className="font-normal">
                       {type.label}
                     </Label>
@@ -235,8 +467,8 @@ export default function LogisticsForm() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
-                      {fromDate ? (
-                        format(fromDate, "MM/dd/yy")
+                      {logisticsFormData.fromDate ? (
+                        format(logisticsFormData.fromDate, "MM/dd/yy")
                       ) : (
                         <span className="text-muted-foreground">mm/dd/yy</span>
                       )}
@@ -244,7 +476,7 @@ export default function LogisticsForm() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={fromDate} onSelect={setFromDate} initialFocus />
+                    <Calendar mode="single" selected={logisticsFormData.fromDate} onSelect={(date) => handleLogisticsDateChange('fromDate', date)} initialFocus />
                   </PopoverContent>
                 </Popover>
               </div>
@@ -253,12 +485,12 @@ export default function LogisticsForm() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-start text-left font-normal">
-                      {toDate ? format(toDate, "MM/dd/yy") : <span className="text-muted-foreground">mm/dd/yy</span>}
+                      {logisticsFormData.toDate ? format(logisticsFormData.toDate, "MM/dd/yy") : <span className="text-muted-foreground">mm/dd/yy</span>}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={toDate} onSelect={setToDate} initialFocus />
+                    <Calendar mode="single" selected={logisticsFormData.toDate} onSelect={(date) => handleLogisticsDateChange('toDate', date)} initialFocus />
                   </PopoverContent>
                 </Popover>
               </div>
@@ -267,30 +499,57 @@ export default function LogisticsForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="origin">Origin Location</Label>
-                <Input id="origin" placeholder="required*" required />
+                <Input
+                  id="origin"
+                  name="origin"
+                  value={logisticsFormData.origin}
+                  onChange={handleLogisticsChange}
+                  placeholder="required*"
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="destination">Destination</Label>
-                <Input id="destination" placeholder="required*" required />
+                <Input
+                  id="destination"
+                  name="destination"
+                  value={logisticsFormData.destination}
+                  onChange={handleLogisticsChange}
+                  placeholder="required*"
+                  required
+                />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cargo">Cargo Details (If any)</Label>
-              <Input id="cargo" placeholder="placeholder" />
+              <Label htmlFor="cargoDetails">Cargo Details (If any)</Label>
+              <Input
+                id="cargoDetails"
+                name="cargoDetails"
+                value={logisticsFormData.cargoDetails}
+                onChange={handleLogisticsChange}
+                placeholder="placeholder"
+              />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="additional">Additional Information</Label>
+              <Label htmlFor="message">Additional Information</Label>
               <Textarea
-                id="additional"
+                id="message"
+                name="message"
+                value={logisticsFormData.message}
+                onChange={handleLogisticsChange}
                 placeholder="Is there anything else that you would like to tell us?"
                 className="min-h-[120px]"
               />
             </div>
 
-            <Button type="submit" className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259]">
-              Submit
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259]"
+            >
+              {isLoading ? "Submitting..." : "Submit"}
             </Button>
           </form>
         </TabsContent>
