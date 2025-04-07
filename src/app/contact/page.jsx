@@ -13,11 +13,18 @@ const Contact = () => {
           <p className="mt-3 text-sm px-4">For general enquiries and issues:</p>
           <div className="md:flex justify-center gap-2 mt-1 mb-4">
             <p className="text-sm px-4 mr-2">
-              Email: <span className="font-semibold">info@devend.com</span>
+              Email: <span className="font-semibold">
+                <a href="mailto:info@dev-end.org"></a>
+                info@dev-end.org
+              </span>
             </p>
             <p className="text-sm px-4">
               Telephone:{" "}
-              <span className="font-semibold">+234 (803) 000 0000</span>
+              <span className="font-semibold">
+                <a href="tel:+234 806 844 7200">
+                  +234 806 844 7200
+                </a>
+              </span>
             </p>
           </div>
           <p className="md:mt-5 mt-3">
