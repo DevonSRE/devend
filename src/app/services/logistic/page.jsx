@@ -280,11 +280,25 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" placeholder="required**" required />
+                <Input
+                  id="firstName"
+                  name="firstname"
+                  value={values.firstname}
+                  onChange={handleChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" placeholder="required**" required />
+                <Input
+                  id="lastName"
+                  name="lastname"
+                  value={values.lastname}
+                  onChange={handleChange}
+                  placeholder="required**"
+                  required
+                />
               </div>
             </div>
 
@@ -341,7 +355,10 @@ export default function Page() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className='w-auto p-0' align='start'>
-                    <Calendar mode='single' selected={fromDate} onSelect={setFromDate} initialFocus />
+                    <Calendar mode='single' selected={fromDate} onSelect={(date) => {
+                      setFromDate(date);
+                      setValues(prev => ({ ...prev, fromDate: date }));
+                    }} initialFocus />
                   </PopoverContent>
                 </Popover>
               </div>

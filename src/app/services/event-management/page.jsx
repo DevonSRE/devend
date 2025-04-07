@@ -259,11 +259,27 @@ export default function Page() {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 							<div className="space-y-1.5 md:space-y-2">
 								<Label htmlFor="firstName" className="text-sm sm:text-base">First Name</Label>
-								<Input id="firstName" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input
+									id="firstName"
+									name="firstname"
+									value={values.firstname}
+									onChange={handleChange}
+									placeholder="required**"
+									required
+									className="text-sm sm:text-base"
+								/>
 							</div>
 							<div className="space-y-1.5 md:space-y-2">
 								<Label htmlFor="lastName" className="text-sm sm:text-base">Last Name</Label>
-								<Input id="lastName" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input
+									id="lastName"
+									name="lastname"
+									value={values.lastname}
+									onChange={handleChange}
+									placeholder="required**"
+									required
+									className="text-sm sm:text-base"
+								/>
 							</div>
 						</div>
 

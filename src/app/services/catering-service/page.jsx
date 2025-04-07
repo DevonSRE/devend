@@ -377,7 +377,7 @@ export default function Page() {
 									<PopoverTrigger asChild>
 										<Button variant='outline' className='w-full justify-start text-left font-normal'>
 											{values.date ? (
-												format(new Date(values.date), 'MM/dd/yy')
+												format(typeof values.date === 'string' ? new Date(values.date) : values.date, 'MM/dd/yy')
 											) : (
 												<span className='text-muted-foreground'>mm/dd/yy</span>
 											)}
@@ -385,7 +385,12 @@ export default function Page() {
 										</Button>
 									</PopoverTrigger>
 									<PopoverContent className='w-auto p-0' align='start'>
-										<Calendar mode='single' selected={new Date(values.date)} onSelect={(date) => setValues(prev => ({ ...prev, date: date?.toISOString().split('T')[0] }))} initialFocus />
+										<Calendar
+											mode='single'
+											selected={typeof values.date === 'string' ? new Date(values.date) : values.date}
+											onSelect={(date) => setValues(prev => ({ ...prev, date: date }))}
+											initialFocus
+										/>
 									</PopoverContent>
 								</Popover>
 							</div>
