@@ -50,15 +50,7 @@ const createEmailContent = (data) => {
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
       </div>
 
-      <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
-        <h3 style="color: #2A1C51; margin-bottom: 10px;">Event Details</h3>
-        <p><strong>Service Type:</strong> ${service || 'Not specified'}</p>
-        <p><strong>Event Types:</strong> ${formatEventTypes(eventTypes)}</p>
-        <p><strong>Date:</strong> ${date || 'Not specified'}</p>
-        <p><strong>Planning Needs:</strong> ${needs || 'Not specified'}</p>
-        <p><strong>Estimated Budget:</strong> ${budget || 'Not specified'}</p>
-        <p><strong>Guest Count:</strong> ${guest || 'Not specified'}</p>
-      </div>
+      
 
       ${service === 'logistics' ? `
         <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
@@ -69,7 +61,17 @@ const createEmailContent = (data) => {
           <p><strong>Destination:</strong> ${destination || 'Not specified'}</p>
           <p><strong>Cargo Details:</strong> ${cargoDetails || 'Not specified'}</p>
         </div>
-      ` : ''}
+      ` : `
+      <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
+        <h3 style="color: #2A1C51; margin-bottom: 10px;">Event Details</h3>
+        <p><strong>Service Type:</strong> ${service || 'Not specified'}</p>
+        <p><strong>Event Types:</strong> ${formatEventTypes(eventTypes)}</p>
+        <p><strong>Date:</strong> ${date || 'Not specified'}</p>
+        <p><strong>Planning Needs:</strong> ${needs || 'Not specified'}</p>
+        <p><strong>Estimated Budget:</strong> ${budget || 'Not specified'}</p>
+        <p><strong>Guest Count:</strong> ${guest || 'Not specified'}</p>
+      </div>
+      `}
 
       ${message ? `
         <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
@@ -88,13 +90,7 @@ const createEmailContent = (data) => {
     Email: ${email}
     Phone: ${phone || 'Not provided'}
 
-    Event Details:
-    Service Type: ${service || 'Not specified'}
-    Event Types: ${formatEventTypes(eventTypes)}
-    Date: ${date || 'Not specified'}
-    Planning Needs: ${needs || 'Not specified'}
-    Estimated Budget: ${budget || 'Not specified'}
-    Guest Count: ${guest || 'Not specified'}
+  
 
     ${service === 'logistics' ? `
     Logistics Details:
@@ -103,7 +99,15 @@ const createEmailContent = (data) => {
     Origin: ${origin || 'Not specified'}
     Destination: ${destination || 'Not specified'}
     Cargo Details: ${cargoDetails || 'Not specified'}
-    ` : ''}
+    ` :
+      `Event Details:
+    Service Type: ${service || 'Not specified'}
+    Event Types: ${formatEventTypes(eventTypes)}
+    Date: ${date || 'Not specified'}
+    Planning Needs: ${needs || 'Not specified'}
+    Estimated Budget: ${budget || 'Not specified'}
+    Guest Count: ${guest || 'Not specified'}`
+    }
 
     ${message ? `
     Additional Information:
@@ -116,6 +120,7 @@ const createEmailContent = (data) => {
 
 const sendEmail = async (data) => {
   const { htmlContent, textContent } = createEmailContent(data);
+  console.log({ htmlContent, textContent })
 
   const request = mailjet
     .post('send', { version: 'v3.1' })
