@@ -264,7 +264,7 @@ export default function Page() {
 									name="firstname"
 									value={values.firstname}
 									onChange={handleChange}
-									placeholder="required**"
+									placeholder="required*"
 									required
 									className="text-sm sm:text-base"
 								/>
@@ -276,7 +276,7 @@ export default function Page() {
 									name="lastname"
 									value={values.lastname}
 									onChange={handleChange}
-									placeholder="required**"
+									placeholder="required*"
 									required
 									className="text-sm sm:text-base"
 								/>
@@ -286,11 +286,11 @@ export default function Page() {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 							<div className="space-y-1.5 md:space-y-2">
 								<Label htmlFor="email" className="text-sm sm:text-base">Email Address</Label>
-								<Input id="email" type="email" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input id="email" type="email" placeholder="required*" required className="text-sm sm:text-base" />
 							</div>
 							<div className="space-y-1.5 md:space-y-2">
 								<Label htmlFor="phone" className="text-sm sm:text-base">Phone Number</Label>
-								<Input id="phone" type="tel" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input id="phone" type="tel" placeholder="required*" required className="text-sm sm:text-base" />
 							</div>
 						</div>
 
@@ -329,18 +329,18 @@ export default function Page() {
 							</div>
 							<div className="space-y-2">
 								<Label htmlFor="planningNeeds" className="text-sm sm:text-base">Planning Needs</Label>
-								<Input id="planningNeeds" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input id="planningNeeds" placeholder="required*" required className="text-sm sm:text-base" />
 							</div>
 						</div>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 							<div className="space-y-2">
 								<Label htmlFor="estimatedBudget" className="text-sm sm:text-base">Estimated Budget</Label>
-								<Input id="estimatedBudget" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input id="estimatedBudget" placeholder="required*" required className="text-sm sm:text-base" />
 							</div>
 							<div className="space-y-2">
 								<Label htmlFor="guestCount" className="text-sm sm:text-base">Estimated Guest Count</Label>
-								<Input id="guestCount" placeholder="required**" required className="text-sm sm:text-base" />
+								<Input id="guestCount" placeholder="required*" required className="text-sm sm:text-base" />
 							</div>
 						</div>
 

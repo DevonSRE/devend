@@ -242,7 +242,7 @@ export default function LogisticsForm() {
                   name="firstname"
                   value={eventFormData.firstname}
                   onChange={handleEventChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -253,7 +253,7 @@ export default function LogisticsForm() {
                   name="lastname"
                   value={eventFormData.lastname}
                   onChange={handleEventChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -268,7 +268,7 @@ export default function LogisticsForm() {
                   value={eventFormData.email}
                   onChange={handleEventChange}
                   type="email"
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -280,7 +280,7 @@ export default function LogisticsForm() {
                   value={eventFormData.phone}
                   onChange={handleEventChange}
                   type="tel"
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -330,7 +330,7 @@ export default function LogisticsForm() {
                   name="needs"
                   value={eventFormData.needs}
                   onChange={handleEventChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -344,7 +344,7 @@ export default function LogisticsForm() {
                   name="budget"
                   value={eventFormData.budget}
                   onChange={handleEventChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -355,7 +355,7 @@ export default function LogisticsForm() {
                   name="guest"
                   value={eventFormData.guest}
                   onChange={handleEventChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>

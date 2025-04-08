@@ -1,6 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 
 const initialValues = {
   firstname: "",
@@ -21,8 +30,21 @@ const initialErrors = {
   needs: "",
   budget: "",
   guest: "",
-  eventType: "", // To manage event type error  
+  eventType: "",
 };
+
+const eventTypes = [
+  { id: "wedding", label: "Wedding Ceremony" },
+  { id: "privateparty", label: "Private Party" },
+  { id: "dinner", label: "Gala Dinner" },
+  { id: "birthday", label: "Celebrating a Milestone/Birthday" },
+  { id: "launch", label: "Product Launch" },
+  { id: "campaign", label: "Campaign" },
+  { id: "fundraise", label: "Fundraising Event" },
+  { id: "corporate", label: "Corporate Event" },
+  { id: "conference", label: "Conference" },
+  { id: "others", label: "Others" },
+];
 
 const ContactForm = () => {
   const [values, setValues] = useState(initialValues);
@@ -33,29 +55,22 @@ const ContactForm = () => {
 
   const validate = (values, checkedItems) => {
     const newErrors = {};
-
-    // Basic validation for required fields  
     if (!values.firstname.trim()) newErrors.firstname = "First name is required.";
     if (!values.lastname.trim()) newErrors.lastname = "Last name is required.";
     if (!values.email.trim()) newErrors.email = "Email is required.";
-    else if (!/\S+@\S+\.\S+/.test(values.email))
-      newErrors.email = "Invalid email format.";
-    if (!values.date.trim()) newErrors.date = "Date is required.";
+    else if (!/\S+@\S+\.\S+/.test(values.email)) newErrors.email = "Invalid email format.";
+    if (!values.date) newErrors.date = "Date is required.";
     if (!values.needs.trim()) newErrors.needs = "Planning needs are required.";
     if (!values.budget.trim()) newErrors.budget = "Budget is required.";
     if (!values.guest.trim()) newErrors.guest = "Guest count is required.";
-
-    // Validate event types  
     if (!Object.values(checkedItems).some((isChecked) => isChecked)) {
       newErrors.eventType = "At least one event type must be selected.";
     }
-
     return newErrors;
   };
 
   const handleChange = ({ target }) => {
     setValues((prev) => ({ ...prev, [target.name]: target.value }));
-
     if (touched[target.name]) {
       setErrors((prev) => ({
         ...prev,
@@ -66,23 +81,31 @@ const ContactForm = () => {
 
   const handleBlur = ({ target }) => {
     setTouched((prev) => ({ ...prev, [target.name]: true }));
-
     setErrors((prev) => ({
       ...prev,
       [target.name]: validate(values, checkedItems)[target.name] || "",
     }));
   };
 
-  const handleCheckboxChange = ({ target: { name, checked } }) => {
-    setCheckedItems((prevState) => ({
-      ...prevState,
-      [name]: checked,
+  const handleCheckboxChange = (id) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id],
     }));
+    setErrors((prev) => ({
+      ...prev,
+      eventType: validate(values, { ...checkedItems, [id]: !checkedItems[id] }).eventType || "",
+    }));
+  };
 
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      eventType: validate(values, { ...checkedItems, [name]: checked }).eventType || "",
-    }));
+  const handleDateChange = (date) => {
+    setValues((prev) => ({ ...prev, date }));
+    if (touched.date) {
+      setErrors((prev) => ({
+        ...prev,
+        date: validate({ ...values, date }, checkedItems).date || "",
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -90,7 +113,6 @@ const ContactForm = () => {
     const validationErrors = validate(values, checkedItems);
     setErrors(validationErrors);
 
-    // Check for any validation errors before proceeding  
     if (Object.keys(validationErrors).length > 0) return;
 
     setIsLoading(true);
@@ -109,216 +131,188 @@ const ContactForm = () => {
         setValues(initialValues);
         setTouched({});
         setCheckedItems({});
+        setErrors(initialErrors);
       } else {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Helper function to determine if the button should be disabled  
   const isButtonDisabled = () => {
     const allRequiredFieldsEmpty = [
       values.firstname.trim(),
       values.lastname.trim(),
       values.email.trim(),
-      values.date.trim(),
       values.needs.trim(),
       values.budget.trim(),
       values.guest.trim(),
-    ].some((field) => field === "");
+    ].some((field) => field === "") || !values.date;
 
-    //Check if at least one event type checkbox is checked
     const isEventTypeSelected = Object.values(checkedItems).some((isChecked) => isChecked);
-
     return isLoading || allRequiredFieldsEmpty || !isEventTypeSelected || Object.keys(errors).some((key) => errors[key]);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 md:px-6">
-      <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
-        {/* Full Name */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          <div className="space-y-1.5 md:space-y-2">
-            <label className="block text-sm sm:text-base text-[#211434]">
-              First Name
-            </label>
-            <input
-              type="text"
+    <div className="w-full max-w-4xl mx-auto my-16">
+
+
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <Label htmlFor="firstname">First Name</Label>
+            <Input
+              id="firstname"
               name="firstname"
-              placeholder="required**"
               value={values.firstname}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
+              placeholder="required*"
+              required
             />
-            {errors.firstname && (
-              <p className="text-red-500 text-xs mt-1">{errors.firstname}</p>
-            )}
+            {errors.firstname && <p className="text-red-500 text-xs">{errors.firstname}</p>}
           </div>
-          <div className="space-y-1.5 md:space-y-2">
-            <label className="block text-sm sm:text-base text-[#211434]">
-              Last Name
-            </label>
-            <input
-              type="text"
+          <div className="space-y-2">
+            <Label htmlFor="lastname">Last Name</Label>
+            <Input
+              id="lastname"
               name="lastname"
-              placeholder="required**"
               value={values.lastname}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
+              placeholder="required*"
+              required
             />
-            {errors.lastname && (
-              <p className="text-red-500 text-xs mt-1">{errors.lastname}</p>
-            )}
+            {errors.lastname && <p className="text-red-500 text-xs">{errors.lastname}</p>}
           </div>
         </div>
 
-        {/* Email */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">
-            Email Address
-          </label>
-          <input
-            type="email"
+        <div className="space-y-2">
+          <Label htmlFor="email">Email Address</Label>
+          <Input
+            id="email"
             name="email"
-            placeholder="required**"
+            type="email"
             value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
+            placeholder="required*"
+            required
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
         </div>
 
-        {/* Event Type */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">Event Type (required)</label>
-          <div className="flex gap-3 flex-wrap">
-            {["wedding", "privateparty", "dinner", "birthday", "launch", "campaign", "fundraise", "corporate", "conference", "others"].map((event) => (
-              <div className="flex gap-3" key={event}>
-                <input
-                  type="checkbox"
-                  id={event}
-                  name={event}
-                  checked={!!checkedItems[event]}
-                  onChange={handleCheckboxChange}
-                  className="w-5 h-5 text-blue-200 bg-gray-100 border-[#ccc] rounded-sm"
+        <div className="space-y-3">
+          <Label>Event Type (required)</Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {eventTypes.map((type) => (
+              <div key={type.id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`event-${type.id}`}
+                  checked={checkedItems[type.id] || false}
+                  onCheckedChange={() => handleCheckboxChange(type.id)}
                 />
-                <label className="block text-sm text-[#211434] capitalize">{event.replace(/([a-z])([A-Z])/g, "$1 $2")}</label>
+                <Label htmlFor={`event-${type.id}`} className="font-normal">
+                  {type.label}
+                </Label>
               </div>
             ))}
           </div>
-          {errors.eventType && <p className="text-red-500 text-xs mt-1">{errors.eventType}</p>}
+          {errors.eventType && <p className="text-red-500 text-xs">{errors.eventType}</p>}
         </div>
 
-        {/* Event Date */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">
-            Event Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            value={values.date}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
-          />
-          {errors.date && (
-            <p className="text-red-500 text-xs mt-1">{errors.date}</p>
-          )}
+        <div className="space-y-2">
+          <Label htmlFor="date">Event Date</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full justify-start text-left font-normal">
+                {values.date ? format(values.date, "MM/dd/yy") : (
+                  <span className="text-muted-foreground">mm/dd/yy</span>
+                )}
+                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={values.date}
+                onSelect={handleDateChange}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          {errors.date && <p className="text-red-500 text-xs">{errors.date}</p>}
         </div>
 
-        {/* Planning Needs */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">
-            Planning Needs
-          </label>
-          <input
-            type="text"
+        <div className="space-y-2">
+          <Label htmlFor="needs">Planning Needs</Label>
+          <Input
+            id="needs"
             name="needs"
-            placeholder="required**"
             value={values.needs}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
+            placeholder="required*"
+            required
           />
-          {errors.needs && (
-            <p className="text-red-500 text-xs mt-1">{errors.needs}</p>
-          )}
+          {errors.needs && <p className="text-red-500 text-xs">{errors.needs}</p>}
         </div>
 
-        {/* Estimated Budget */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">
-            Estimated Budget
-          </label>
-          <input
-            type="number"
-            name="budget"
-            placeholder="required**"
-            value={values.budget}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
-          />
-          {errors.budget && (
-            <p className="text-red-500 text-xs mt-1">{errors.budget}</p>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <Label htmlFor="budget">Estimated Budget</Label>
+            <Input
+              id="budget"
+              name="budget"
+              type="number"
+              value={values.budget}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="required*"
+              required
+            />
+            {errors.budget && <p className="text-red-500 text-xs">{errors.budget}</p>}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="guest">Estimated Guest Count</Label>
+            <Input
+              id="guest"
+              name="guest"
+              type="number"
+              value={values.guest}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="required*"
+              required
+            />
+            {errors.guest && <p className="text-red-500 text-xs">{errors.guest}</p>}
+          </div>
         </div>
 
-        {/* Estimated Guest Count */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">
-            Estimated Guest Count
-          </label>
-          <input
-            type="number"
-            name="guest"
-            placeholder="required**"
-            value={values.guest}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="w-full px-4 py-2 border rounded-md text-sm sm:text-base"
-          />
-          {errors.guest && (
-            <p className="text-red-500 text-xs mt-1">{errors.guest}</p>
-          )}
-        </div>
-
-        {/* Additional Information */}
-        <div className="space-y-1.5 md:space-y-2">
-          <label className="block text-sm sm:text-base text-[#211434]">
-            How can we help?
-          </label>
-          <textarea
+        <div className="space-y-2">
+          <Label htmlFor="message">Additional Information</Label>
+          <Textarea
+            id="message"
             name="message"
-            rows="4"
-            placeholder="Is there anything else that you would like to tell us about your planning needs or vision for your event?"
             value={values.message}
             onChange={handleChange}
             onBlur={handleBlur}
-            className='w-full px-4 py-2 border rounded-md border-[#ccc] text-sm sm:text-base placeholder:text-xs placeholder:text-[#2A1C51] focus:outline-none focus:ring-1 focus:ring-blue-400'
+            placeholder="Is there anything else that you would like to tell us about your planning needs or vision for your event?"
+            className="min-h-[120px]"
           />
         </div>
 
-        {/* Submit Button */}
-        <button
+        <Button
           type="submit"
           disabled={isButtonDisabled()}
-          className={`w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259] text-white text-sm sm:text-base px-8 py-3 rounded-lg ${isButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+          className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259]"
         >
-          {isLoading ? "Sending..." : "Submit"}
-        </button>
+          {isLoading ? "Submitting..." : "Submit"}
+        </Button>
       </form>
     </div>
   );

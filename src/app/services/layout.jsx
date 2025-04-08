@@ -9,7 +9,6 @@ const Layout = ({ children }) => {
 		'/services/event-management',
 		'/services/logistics',
 		'/services/catering',
-		'/services/book-a-service'
 	]
 	return (
 		<div>

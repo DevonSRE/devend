@@ -285,7 +285,7 @@ export default function Page() {
                   name="firstname"
                   value={values.firstname}
                   onChange={handleChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -296,7 +296,7 @@ export default function Page() {
                   name="lastname"
                   value={values.lastname}
                   onChange={handleChange}
-                  placeholder="required**"
+                  placeholder="required*"
                   required
                 />
               </div>
@@ -306,11 +306,11 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="required**" required />
+                <Input id="email" type="email" placeholder="required*" required />
               </div>
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="required**" required />
+                <Input id="phone" type="tel" placeholder="required*" required />
               </div>
             </div>
 
@@ -386,11 +386,11 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-2">
                 <Label>Origin Location</Label>
-                <Input placeholder="required**" required />
+                <Input placeholder="required*" required />
               </div>
               <div className="space-y-2">
                 <Label>Destination</Label>
-                <Input placeholder="required**" required />
+                <Input placeholder="required*" required />
               </div>
             </div>
 
@@ -402,7 +402,7 @@ export default function Page() {
               </div>
               <div className="space-y-2">
                 <Label>Estimated Guest Count</Label>
-                <Input placeholder="required**" required />
+                <Input placeholder="required*" required />
               </div>
             </div>
 

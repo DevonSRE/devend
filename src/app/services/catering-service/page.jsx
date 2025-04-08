@@ -277,7 +277,7 @@ export default function Page() {
 								<Input
 									id='firstname'
 									name='firstname'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.firstname}
 									onChange={handleChange}
 									required
@@ -292,7 +292,7 @@ export default function Page() {
 								<Input
 									id='lastname'
 									name='lastname'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.lastname}
 									onChange={handleChange}
 									required
@@ -311,7 +311,7 @@ export default function Page() {
 									id='email'
 									name='email'
 									type='email'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.email}
 									onChange={handleChange}
 									required
@@ -327,7 +327,7 @@ export default function Page() {
 									id='phone'
 									name='phone'
 									type='tel'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.phone}
 									onChange={handleChange}
 									required
@@ -399,7 +399,7 @@ export default function Page() {
 								<Input
 									id='needs'
 									name='needs'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.needs}
 									onChange={handleChange}
 									required
@@ -417,7 +417,7 @@ export default function Page() {
 								<Input
 									id='budget'
 									name='budget'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.budget}
 									onChange={handleChange}
 									required
@@ -432,7 +432,7 @@ export default function Page() {
 								<Input
 									id='guest'
 									name='guest'
-									placeholder='required**'
+									placeholder='required*'
 									value={values.guest}
 									onChange={handleChange}
 									required

@@ -49,7 +49,7 @@ const Home = () => {
                             </p>
 
                             <div className='mt-6 sm:mt-8'>
-                                <Link href="/services/book-a-service">
+                                <Link href="/contact">
                                     <span className='inline-block text-white text-base sm:text-lg font-semibold px-6 sm:px-8 py-4 sm:py-5 bg-[#2A1C51] rounded-md hover:bg-[#3c2875] transition-colors'>
                                         Book an Appointment
                                     </span>
