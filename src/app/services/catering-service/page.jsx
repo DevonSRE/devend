@@ -240,7 +240,7 @@ export default function Page() {
 			</section>
 
 			{/* Booking Form Section */}
-			<section className='w-full bg-white py-12 md:py-16'>
+			<section className='w-full bg-white py-12 md:py-16 px-4'>
 				<div className='w-full max-w-4xl mx-auto px-4 md:px-6'>
 					<div className='text-center mb-6 md:mb-10'>
 						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4'>

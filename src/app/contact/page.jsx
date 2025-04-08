@@ -188,7 +188,7 @@ export default function LogisticsForm() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-16">
+    <div className="w-full max-w-4xl mx-auto my-16 px-4">
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">Let&apos;s Create an Unforgettable Experience</h1>
         <div className="text-sm text-gray-600 space-y-1">
