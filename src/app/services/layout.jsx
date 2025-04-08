@@ -4,16 +4,11 @@ import { usePathname } from "next/navigation";
 
 
 const Layout = ({ children }) => {
-	const pathname = usePathname();
-	const routesWithHiddenForm = [
-		'/services/event-management',
-		'/services/logistics',
-		'/services/catering',
-	]
+
 	return (
 		<div>
 			{children}
-			<Footer showForm={!routesWithHiddenForm.includes(pathname)} />
+			<Footer showForm={true} />
 		</div>
 	);
 };
