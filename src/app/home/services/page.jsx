@@ -66,9 +66,9 @@ const Services = () => {
           <div className="w-full md:w-[45%]">
             <ServiceCard service={services[2]} />
           </div>
-          <div className="w-full md:w-[55%]">
+          {/*<div className="w-full md:w-[55%]">
             <ServiceCard service={services[3]} />
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>

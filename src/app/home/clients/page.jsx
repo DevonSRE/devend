@@ -21,20 +21,16 @@ const Clients = () => {
                   <div className="rounded-full bg-[#CCCCCC] p-0.5"></div>
                   <div className="rounded-full bg-[#CCCCCC] p-0.5"></div>
                 </div>
-                <h4 className="text-lg md:text-2xl font-semibold text-[#211434]">
+                {/*<h4 className="text-lg md:text-2xl font-semibold text-[#211434]">
                   Nothing But Exceptional
+                </h4>*/}
+                <h4 className="text-lg md:text-2xl font-semibold text-[#211434]">
+                  Superb Services
                 </h4>
                 <p className="max-w-[580px] mt-3 text-[#211434]">
-                  Working with Devend was an absolute pleasure. From the initial
-                  consultation to the final execution, their team was incredibly
-                  professional, creative, and attentive to detail. They truly
-                  brought our vision for our wedding to life, exceeding our
-                  expectations in every way. The food was exceptional, the
-                  logistics were seamless, and the overall experience was
-                  unforgettable. We highly recommend their services to anyone
-                  planning a special event.
+                  I want to thank Dev End for what they have done in a short notice, within a short notice. They were able to put this together and it was top-notch. Their services are superb. I thank you very much for meeting all my requirements and giving me what I needed. You have added more sunshine to my event. Thank you.
                 </p>
-                <p className="text-left mt-4 font-semibold text-[#211434]">~ Mr & Mrs. Adebayo</p>
+                <p className="text-left mt-4 font-semibold text-[#211434]">Engr Mary</p>
               </div>
             </div>
 
@@ -49,12 +45,12 @@ const Clients = () => {
             </div>
           </div>
         </div>
-      
+
       </div>
 
       {/* Experience */}
       <div className="border-t border-[#ccc] my-8"></div>
-      
+
       <div className="flex justify-center text-[#211434] px-4">
         <div className="text-center ">
           <p className="md:text-4xl text-3xl font-semibold">Let's Create an Unforgettable Experience</p>
@@ -91,7 +87,7 @@ const Clients = () => {
               </Link>
             </div>
           </div>
-          
+
 
         </div>
       </div>

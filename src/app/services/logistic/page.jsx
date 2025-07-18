@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { toast } from "sonner";
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
@@ -17,15 +16,28 @@ import {
 } from '@/components/ui/popover';
 import {
   CalendarIcon,
-  Facebook,
-  Instagram,
-  PinIcon as Pinterest,
+  Loader2Icon,
 } from 'lucide-react';
 import { format } from 'date-fns';
 
 import logisticImg from '../../../../public/logistic-1.png';
 import TestimonialCarousel from '@/app/_component/TestimonialCarousel';
+import { TrustedBy } from '@/app/_component/TrustedBy';
 
+const eventTypes = [
+  { id: "car-hire", label: "Car Hire" },
+  { id: "fleet-management", label: "Fleet Management" },
+  { id: "dispatch-services", label: "Dispatch Services" },
+  { id: "event-specifics", label: "Event Specifics" },
+  { id: "flight-booking", label: "Flight Booking" },
+  { id: "hotel-reservation", label: "Hotel Reservation" },
+  { id: "executive-airport-pickups", label: "Executive Airport Pick-ups" },
+  { id: "wedding-tours & Retreats", label: "Wedding Tours & Retreats" },
+  { id: "logistics", label: "Logistics" },
+  { id: "conference", label: "Conference" },
+  { id: "others", label: "Others" }
+]
+/*
 const logisticsTypes = [
   { id: 'car-hire', label: 'Car Hire' },
   { id: 'fleet-management', label: 'Fleet Management' },
@@ -39,46 +51,34 @@ const logisticsTypes = [
   { id: 'conference', label: 'Conference' },
   { id: 'others', label: 'Others' }
 ];
+*/
+
+const defaultValues = {
+  firstname: "",
+  lastname: "",
+  email: "",
+  phone: "",
+  company: "",
+  fromDate: "",
+  toDate: "",
+  guest: "",
+  message: "",
+  location: "",
+  destination: "",
+  cargo: "",
+};
 
 export default function Page() {
   const [fromDate, setFromDate] = useState(undefined);
   const [toDate, setToDate] = useState(undefined);
-  const [eventDate, setEventDate] = useState(undefined);
+  // const [eventDate, setEventDate] = useState(undefined);
 
   // Form state
-  const [values, setValues] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-    date: "",
-    needs: "",
-    budget: "",
-    guest: "",
-    message: "",
-  });
+  const [values, setValues] = useState(defaultValues);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
-
-  // Form validation
-  const validate = (values, checkedItems) => {
-    const errors = {};
-    if (!values.firstname) errors.firstname = "First name is required";
-    if (!values.lastname) errors.lastname = "Last name is required";
-    if (!values.email) errors.email = "Email is required";
-    if (!values.phone) errors.phone = "Phone number is required";
-    if (!values.date) errors.date = "Date is required";
-    if (!values.needs) errors.needs = "Planning needs are required";
-    if (!values.budget) errors.budget = "Budget is required";
-    if (!values.guest) errors.guest = "Guest count is required";
-
-    if (!Object.values(checkedItems).some(Boolean)) {
-      errors.eventType = "Please select at least one event type";
-    }
-
-    return errors;
-  };
+  const [isOthers, setIsOthers] = useState(false);
 
   // Form handlers
   const handleSubmit = async (e) => {
@@ -89,10 +89,12 @@ export default function Page() {
     if (Object.keys(validationErrors).length > 0) return;
 
     setIsLoading(true);
+    const payload = { ...values, eventTypes: checkedItems, service: 'logistics' };
+
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
-        body: JSON.stringify({ ...values, eventTypes: checkedItems, service: 'logistics' }),
+        body: JSON.stringify(payload),
         headers: {
           "Content-Type": "application/json",
         },
@@ -100,17 +102,7 @@ export default function Page() {
 
       if (response.ok) {
         toast.success("Message sent successfully!");
-        setValues({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          date: "",
-          needs: "",
-          budget: "",
-          guest: "",
-          message: "",
-        });
+        setValues(defaultValues);
         setCheckedItems({});
       } else {
         toast.error("Failed to send message. Please try again.");
@@ -123,15 +115,88 @@ export default function Page() {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues(prev => ({ ...prev, [name]: value }));
+  const handleDateChange = (date, type) => {
+    switch (type) {
+      case 'fromDate':
+        setFromDate(date);
+        break;
+      case 'toDate':
+        setToDate(date);
+        break;
+      default:
+        break;
+    }
+    setValues(prev => ({ ...prev, [type]: date ? format(date, "yyyy-MM-dd") : '' }));
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setValues(prev => ({ ...prev, [name]: value }))
+  }
+
+  // Form validation
+  const validate = (values, checkedItems) => {
+    const errors = {};
+    if (!values.firstname) errors.firstname = "First name is required";
+    if (!values.lastname) errors.lastname = "Last name is required";
+    if (!values.email) errors.email = "Email is required";
+    if (!values.phone) errors.phone = "Phone number is required";
+    if (!values.fromDate) errors.fromDate = "From Date is required";
+    if (!values.toDate) errors.toDate = "To Date is required";
+    if (!values.guest) errors.guest = "Guest count is required";
+    if (!values.location) errors.location = "Location is required";
+    if (!values.destination) errors.destination = "Destination is required";
+
+    if (!Object.values(checkedItems).some(Boolean)) {
+      errors.eventType = "Please select at least one event type";
+    }
+    if (Object.keys(checkedItems).includes('others')) {
+      if (checkedItems.others === "") {
+        errors.eventType = "Please provide details for other event type";
+      }
+    }
+
+    return errors;
+  };
+
+  const addToCheckedItems = (itemId, value) => {
+    const selectedEventType = eventTypes.find(type => type.id === itemId);
+    setCheckedItems(prev => ({ ...prev, [selectedEventType.id]: value ?? selectedEventType.label }));
+  }
+
+  const handleEventTypeChange = (id, isChecked) => {
+    if (isChecked) {
+      if (id === 'others') {
+        setIsOthers(true);
+        addToCheckedItems('others', '');
+      } else {
+        addToCheckedItems(id);
+      }
+    } else {
+      // TODO: remove from list of checkedItems
+      const selectedEventType = eventTypes.find(type => type.id === id);
+      setCheckedItems(prev => {
+        // ({ ...prev, [selectedEventType.id]: "" })
+        const itemCopy = { ...prev };
+        const isDelete = delete itemCopy[selectedEventType.id];
+        if (isDelete) {
+          return { ...itemCopy };
+        } else {
+          return { ...prev };
+        }
+      });
+      if (id === 'others') {
+        setIsOthers(false);
+      }
+    }
+  };
+
+  /*
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setCheckedItems(prev => ({ ...prev, [name]: checked }));
   };
+  */
 
   return (
     <div className='min-h-screen'>
@@ -220,7 +285,8 @@ export default function Page() {
       </section>
 
       {/* Trusted By Section */}
-      <section className='container mx-auto px-4 md:px-6 py-12'>
+      <TrustedBy />
+      {/*<section className='container mx-auto px-4 md:px-6 py-12'>
         <div className='max-w-4xl mx-auto'>
           <div className='flex items-center justify-center gap-4 mb-2'>
             <div className='flex-1 h-0.5 bg-[#211434]/10'></div>
@@ -245,7 +311,7 @@ export default function Page() {
             ))}
           </div>
         </div>
-      </section>
+      </section>*/}
 
       {/* Testimonial Section */}
       <section className='bg-[#FEFBEC] py-12 md:py-16'>
@@ -264,12 +330,13 @@ export default function Page() {
         <div className='w-full max-w-4xl mx-auto px-4 md:px-6'>
           <div className='text-center mb-6 md:mb-10'>
             <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4'>
-              Let&apos;s Create an Unforgettable Experience
+              {/*Let&apos;s Create an Unforgettable Experience*/}
+              Book A Ride
             </h2>
 
             <div className='mt-4 text-center'>
               <p className='max-w-2xl mx-auto text-sm sm:text-base'>
-                For event inquiries, please fill out the form below and one of
+                For logistics inquiry, please fill out the form below and one of
                 our team members will get back to you within 24 hours.
               </p>
             </div>
@@ -306,37 +373,72 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="required*" required />
+                <Input
+                  id="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  type="email"
+                  placeholder="required*"
+                  required
+                />
               </div>
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="required*" required />
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={values.phone}
+                  onChange={handleChange}
+                  type="tel"
+                  placeholder="required*"
+                  required
+                />
               </div>
+            </div>
+
+            <div className="space-y-1.5 md:space-y-2">
+              <Label htmlFor="company" className="text-sm sm:text-base">Company</Label>
+              <Input
+                id="company"
+                type="text"
+                name="company"
+                value={values.company}
+                onChange={handleChange}
+                placeholder="optional"
+                className="text-sm sm:text-base"
+              />
             </div>
 
             {/* Logistics Type */}
             <div className="space-y-2 md:space-y-3">
               <Label>Logistics Type (required)</Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                {[
-                  'Car Hire',
-                  'Fleet Management',
-                  'Dispatch Services',
-                  'Event Specifics',
-                  'Flight Booking',
-                  'Hotel Reservation',
-                  'Executive Airport Pick-ups',
-                  'Wedding Tours & Retreats',
-                  'Logistics',
-                  'Conference',
-                  'Others'
-                ].map((type) => (
-                  <div key={type} className="flex items-center space-x-2">
-                    <Checkbox id={`type-${type.toLowerCase().replace(/\s+/g, '-')}`} />
-                    <Label htmlFor={`type-${type.toLowerCase().replace(/\s+/g, '-')}`}>{type}</Label>
+                {eventTypes.map((type) => (
+                  <div key={type.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`type-${type.id}`}
+                      onCheckedChange={(checked) => handleEventTypeChange(type.id, checked)}
+                    />
+                    <Label htmlFor={`type-${type.id}`}>{type.label}</Label>
                   </div>
                 ))}
               </div>
+              {isOthers && (
+                <div className="max-w-80 h-fit flex items-center gap-2 justify-end ml-auto">
+                  <Input
+                    type="text"
+                    name="others"
+                    placeholder="Enter other event type here"
+                    value={checkedItems.others || ''}
+                    onChange={(e) => { addToCheckedItems('others', e.target.value); }}
+                    className="text-sm sm:text-base"
+                  />
+                </div>
+              )}
+              {Object.keys(errors).length > 0 && errors?.eventType && (
+                <span className="text-xs text-destructive">*{errors.eventType}</span>
+              )}
             </div>
 
             {/* Date Range */}
@@ -356,11 +458,15 @@ export default function Page() {
                   </PopoverTrigger>
                   <PopoverContent className='w-auto p-0' align='start'>
                     <Calendar mode='single' selected={fromDate} onSelect={(date) => {
-                      setFromDate(date);
-                      setValues(prev => ({ ...prev, fromDate: date }));
+                      handleDateChange(date, 'fromDate');
+                      // setFromDate(date);
+                      // setValues(prev => ({ ...prev, fromDate: date }));
                     }} initialFocus />
                   </PopoverContent>
                 </Popover>
+                {Object.keys(errors).length > 0 && errors?.fromDate && (
+                  <span className="text-xs text-destructive">*{errors.fromDate}</span>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>To:</Label>
@@ -376,9 +482,16 @@ export default function Page() {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className='w-auto p-0' align='start'>
-                    <Calendar mode='single' selected={toDate} onSelect={setToDate} initialFocus />
+                    <Calendar mode='single' selected={toDate} onSelect={(date) => {
+                      handleDateChange(date, 'toDate');
+                      // setToDate(date)
+                      // setValues(prev => ({ ...prev, fromDate: date }));
+                    }} initialFocus />
                   </PopoverContent>
                 </Popover>
+                {Object.keys(errors).length > 0 && errors?.toDate && (
+                  <span className="text-xs text-destructive">*{errors.toDate}</span>
+                )}
               </div>
             </div>
 
@@ -386,11 +499,23 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-2">
                 <Label>Origin Location</Label>
-                <Input placeholder="required*" required />
+                <Input
+                  name="location"
+                  value={values.location}
+                  placeholder="required*"
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label>Destination</Label>
-                <Input placeholder="required*" required />
+                <Input
+                  name="destination"
+                  value={values.destination}
+                  placeholder="required*"
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
 
@@ -398,11 +523,22 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-2">
                 <Label>Cargo Details (If any)</Label>
-                <Input placeholder="placeholder" />
+                <Input
+                  name="cargo"
+                  value={values.cargo}
+                  onChange={handleChange}
+                  placeholder="placeholder"
+                />
               </div>
               <div className="space-y-2">
                 <Label>Estimated Guest Count</Label>
-                <Input placeholder="required*" required />
+                <Input
+                  name="guest"
+                  value={values.guest}
+                  onChange={handleChange}
+                  placeholder="required*"
+                  required
+                />
               </div>
             </div>
 
@@ -411,6 +547,9 @@ export default function Page() {
               <Label>Additional Information</Label>
               <Textarea
                 placeholder="Is there anything else that you would like to tell us ?"
+                name="message"
+                value={values.message}
+                onChange={handleChange}
                 className="min-h-[120px]"
               />
             </div>
@@ -418,9 +557,12 @@ export default function Page() {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full sm:w-auto bg-[#2e1a47] hover:bg-[#3b2259] text-white px-8 py-3"
+              className="w-full sm:w-52 bg-[#2e1a47] hover:bg-[#3b2259] text-white px-8 py-3"
+              disabled={isLoading}
             >
-              Submit
+              {isLoading ? (
+                <Loader2Icon className="h-4 w-4 animate-spin" />
+              ) : ('Submit')}
             </Button>
           </form>
         </div>

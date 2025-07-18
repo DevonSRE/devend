@@ -1,57 +1,146 @@
 'use client'
+
+
+import { useRef, useState } from "react";
+
 import Image from "next/image";
-import groupImg from "../../../public/group_img.png";
+// import groupImg from "../../../public/group_img.png";
 import uniqueImg from "../../../public/about-us-cropped.png";
 import Footer from "../home/footer/page";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card";
+import { ArrowRightIcon, XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+
+const boardMembers = [
+  {
+    id: '1',
+    imageUrl: '/images/board/chairman.png',
+    name: 'Chibuzor Ekwekwo',
+    designation: 'Board Chairman',
+    description: 'Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.',
+  },
+  {
+    id: '2',
+    imageUrl: '/images/board/member.png',
+    name: 'Obiora Chukwumba',
+    designation: 'Board Member',
+    description: 'Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.',
+  },
+  {
+    id: '3',
+    imageUrl: '/images/board/director.jpg',
+    name: 'Lucy James Abagi',
+    designation: 'Board Director & Chief Executive Officer (PPDC)',
+    description: ' Ifunanya Okeke is a law graduate from Babcock University, Ogun State, with a diploma in Criminology and Security Studies. She is an associate of the Chartered Institute of Arbitrators UK - Nigeria and the Institute of Chartered Secretaries and Administrators. She is also trained by the United Nations Office on Drugs and Crime (UNODC).',
+  }
+];
+
+
+const team = [
+  {
+    id: '1',
+    imageUrl: '/images/team/ify.png',
+    name: 'Ifunanya Okeke Esq',
+    designation: 'CEO Development Endeavours',
+    description: 'Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.',
+    socialLinks: {
+      linkedin: 'https://www.linkedin.com/in/ifunanya-okeke/',
+    },
+  },
+  {
+    id: '2',
+    imageUrl: '/images/team/meshach.jpg',
+    name: 'Meshach Auta Bulusson',
+    designation: 'ACA, BSc, Head of Finance',
+    description: 'Meshach Auta Bulusson is a first-class graduate from Federal University Dutsinma, with a strong academic foundation in accounting and finance. He is an Associate Chartered Accountant (ACA), committed to continuous professional development and excellence in the financial sector.',
+    socialLinks: {
+      linkedin: 'https://www.linkedin.com/in/meshach-bulusson-aca',
+    },
+  },
+  {
+    id: '3',
+    imageUrl: '/images/team/vivian.jpg',
+    name: 'Vivian Daniel-Nwaoriara',
+    designation: 'ACIPM, BSc, Head of Human Resources',
+    description: 'Vivian Daniel-Nwaorisara holds a Bachelor of Science degree in Business Management from the Rivers State University of Science and Technology. With a professional commitment to growth and excellence, she is a dedicated member of the Chartered Institute of Personnel Management (CIPM).',
+    socialLinks: {
+      linkedin: 'http://linkedin.com/in/vivian-nwaorisara',
+    },
+  },
+  {
+    id: '4',
+    imageUrl: '/images/team/sonia.jpg',
+    name: 'Sonia Yusuf',
+    designation: 'Head of Program/Event',
+    description: 'Sonia Yusuf is a dynamic and results-oriented development professional with over 8 years of experience in grant writing, program management, project implementation, and event coordination. Her career is rooted in driving social impact through innovative, well-structured programs and partnerships.',
+    socialLinks: {
+      linkedin: 'https://www.linkedin.com/in/sonia-yusuf-867ba4123/',
+    },
+  },
+  {
+    id: '5',
+    imageUrl: '/images/team/shedrach.jpg',
+    name: 'John Shedrach',
+    designation: 'Head of Logistics',
+    description: 'John Shedrach Tukura is a seasoned transport and logistics professional with over a decade of experience supporting public, private, and nonprofit organizations. He is known for his calm, efficient, and strategic approach to logistics operations.',
+    socialLinks: {
+      linkedin: 'https://www.linkedin.com/in/shedrack-john-25b7ab271/',
+    },
+  }
+]
+
+/*
+const teamMembers = [
+  {
+    id: 1,
+    name: "Olivia Christian",
+    title: "Co-Founder & CEO",
+    description: "A well detailed information about the executive, possible active role in the company.",
+    image: "/exec-1.png"
+  },
+  {
+    id: 2,
+    name: "Michael Warren",
+    title: "Co-Founder & COO",
+    description: "A well detailed information about the executive, possible active role in the company.",
+    image: "/exec-2.png"
+  },
+  {
+    id: 3,
+    name: "Sophia Rodriguez",
+    title: "Director of Events",
+    description: "A well detailed information about the executive, possible active role in the company.",
+    image: "/exec-4.png"
+  },
+  {
+    id: 4,
+    name: "David Chen",
+    title: "Head of Logistics",
+    description: "A well detailed information about the executive, possible active role in the company.",
+    image: "/exec-3.png"
+  },
+  {
+    id: 5,
+    name: "Amara Johnson",
+    title: "Creative Director",
+    description: "A well detailed information about the executive, possible active role in the company.",
+    image: "/exec-1.png"
+  },
+  {
+    id: 6,
+    name: "James Wilson",
+    title: "Finance Director",
+    description: "A well detailed information about the executive, possible active role in the company.",
+    image: "/exec-5.png"
+  }
+];
+*/
 
 const About = () => {
-  const executives = [
-    {
-      id: 1,
-      name: "Olivia Christian",
-      title: "Co-Founder & CEO",
-      description: "A well detailed information about the executive, possible active role in the company.",
-      image: "/exec-1.png"
-    },
-    {
-      id: 2,
-      name: "Michael Warren",
-      title: "Co-Founder & COO",
-      description: "A well detailed information about the executive, possible active role in the company.",
-      image: "/exec-2.png"
-    },
-    {
-      id: 3,
-      name: "Sophia Rodriguez",
-      title: "Director of Events",
-      description: "A well detailed information about the executive, possible active role in the company.",
-      image: "/exec-4.png"
-    },
-    {
-      id: 4,
-      name: "David Chen",
-      title: "Head of Logistics",
-      description: "A well detailed information about the executive, possible active role in the company.",
-      image: "/exec-3.png"
-    },
-    {
-      id: 5,
-      name: "Amara Johnson",
-      title: "Creative Director",
-      description: "A well detailed information about the executive, possible active role in the company.",
-      image: "/exec-1.png"
-    },
-    {
-      id: 6,
-      name: "James Wilson",
-      title: "Finance Director",
-      description: "A well detailed information about the executive, possible active role in the company.",
-      image: "/exec-5.png"
-    }
-  ];
-
   return (
     <div>
       <div className="flex justify-center text-[#211434] mt-8">
@@ -220,6 +309,31 @@ const About = () => {
         </div>
       </div>
 
+      {/* Board of Directors */}
+      <div className="py-16 px-4 md:px-10">
+        <motion.div
+          className="container mx-auto"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold text-center text-[#211434] mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            Meet our Board of Directors
+          </motion.h2>
+
+          <div className="w-full max-w-6xl mx-auto">
+            <BoardMembersList cards={boardMembers} />
+          </div>
+        </motion.div>
+      </div>
+
       {/* Executives Section */}
       <div className="py-16 px-4 md:px-10">
         <motion.div
@@ -239,8 +353,10 @@ const About = () => {
             Our Executive Team
           </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
-            {executives.map((exec, index) => (
+          <TeamMembersList cards={team} />
+
+          {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
+            {teamMembers.map((exec, index) => (
               <motion.div
                 key={exec.id}
                 className="relative group overflow-hidden rounded-xl h-96"
@@ -266,7 +382,7 @@ const About = () => {
                   </div>
                 </div>
 
-                {/* Hover overlay */}
+                {/* Hover overlay
                 <motion.div
                   className="absolute inset-0 bg-[#2A1C51] flex flex-col items-center justify-center"
                   initial={{ opacity: 0 }}
@@ -312,7 +428,7 @@ const About = () => {
                 </motion.div>
               </motion.div>
             ))}
-          </div>
+          </div>*/}
         </motion.div>
       </div>
 
@@ -371,3 +487,246 @@ const About = () => {
 };
 
 export default About;
+
+
+const TeamMembersList = ({ cards }) => {
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const dialogRef = useRef(null);
+
+  const handleCardClick = (card) => {
+    if (card) {
+      setSelectedCard(card);
+      // setOpenDetails(true);
+      dialogRef.current.showModal();
+    } else {
+      setSelectedCard(null);
+      // setOpenDetails(false);
+      dialogRef.current.close();
+    }
+  };
+
+  return (
+    <div className="gap-6 justify-center flex flex-wrap w-full overflow-hidden">
+      {cards.map((card) => {
+        return (
+          <Card
+            key={card.id}
+            className={cn(
+              "w-96 border-none shadow-none",
+              "group hover:bg-brand",
+              "transition-all",
+            )}
+            onClick={() => handleCardClick(card)}
+          >
+            <CardContent className="p-6">
+              <div className="rounded-md overflow-hidden h-[372px] w-full">
+                <Image
+                  src={card.imageUrl}
+                  alt={card.name}
+                  height={200}
+                  width={100}
+                  className={cn(
+                    "transition-all duration-200",
+                    "w-full h-full object-center object-cover",
+                    "group-hover:scale-105",
+                  )}
+                />
+              </div>
+            </CardContent>
+
+            <CardFooter className="group-hover:text-white transition-all flex flex-col gap-2 items-start">
+              <div>
+                <CardTitle>{card.name}</CardTitle>
+                <CardDescription className="group-hover:text-white text-base">{card.designation}</CardDescription>
+              </div>
+
+              <div className="text-white text-sm group-hover:text-brand-light font-medium flex items-center gap-2">Read More <ArrowRightIcon size={16} /></div>
+            </CardFooter>
+          </Card>
+        );
+      })}
+      <dialog ref={dialogRef} className={cn(
+        "bg-white rounded-lg overflow-hidden relative py-16 px-8",
+        "fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2",
+        "w-[80%] max-w-[900px] h-[90%] max-h-[520px]",
+      )}>
+        <Button
+          title="close"
+          size="icon"
+          variant="ghost"
+          className="absolute top-4 right-6" onClick={() => handleCardClick()}
+        >
+          <XIcon size={18} />
+        </Button>
+
+        <div className="w-full h-full flex gap-8">
+          <Card
+            className={cn(
+              "border-none shadow-none",
+              "w-64",
+            )}
+          >
+            <CardContent className="p-0 pb-6">
+              <div className="rounded-md overflow-hidden h-72 w-full">
+                {selectedCard && (
+                  <Image
+                    src={selectedCard?.imageUrl}
+                    alt={selectedCard?.name}
+                    height={200}
+                    width={100}
+                    className={cn(
+                      "transition-all duration-200",
+                      "w-full h-full object-center object-cover",
+                    )}
+                  />
+                )}
+              </div>
+            </CardContent>
+
+            <CardFooter className="p-0 group-hover:text-white transition-all flex flex-col gap-2 items-start">
+              <div>
+                <CardTitle className="text-lg">{selectedCard?.name}</CardTitle>
+                <CardDescription className="group-hover:text-white text-base">{selectedCard?.designation}</CardDescription>
+              </div>
+
+              <div className="text-brand text-sm group-hover:text-brand-light font-medium flex items-center gap-2">
+                <a target="_blank" href={selectedCard?.socialLinks.linkedin}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"></path></svg>
+                </a>
+              </div>
+            </CardFooter>
+          </Card>
+
+          <div className="flex-1 h-full w-full flex flex-col gap-6">
+            <p className="text-xl text-neutral-500 font-semibold capitalize">Background & Education</p>
+
+            <p className="text-sm text-start">
+              {selectedCard?.description}
+            </p>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  );
+};
+
+
+const BoardMembersList = ({ cards }) => {
+  const [activeId, setActiveId] = useState(null);
+
+  const toggleCard = (id) => {
+    setActiveId((prev) => (prev === id ? null : id));
+  };
+
+  const variants = {
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+    hidden: { opacity: 0, x: -20, },
+    exit: {
+      opacity: 0,
+      x: -20,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+  const textContentVariants = {
+    visible: {
+      minWidth: '180px',
+      rotate: '-90deg',
+      position: 'absolute',
+      bottom: '60px',
+      left: -45,
+      transition: {
+        duration: 0.2,
+      }
+    },
+    hidden: {
+      maxWidth: '100%',
+      rotate: '0deg',
+      transition: {
+        duration: 0.2
+      }
+    },
+  };
+  const textVariants = {
+    visible: { width: '100%', whiteSpace: 'wrap' },
+    hidden: { width: '100%', whiteSpace: 'normal' },
+  };
+
+  return (
+    <div className="gap-6 justify-between flex w-full overflow-hidden">
+      {cards.map((card) => {
+        const isActive = activeId === card.id;
+        return (
+          <Card
+            key={card.id}
+            className={cn(
+              "relative transition-all duration-300 ease-in-out cursor-pointer group",
+              "border-0 shadow-none",
+              isActive ? "w-[70%]" : activeId ? "w-[15%]" : "w-[100%]",
+              "h-[400px] overflow-hidden",
+            )}
+            onClick={() => toggleCard(card.id)}
+          >
+            <Card
+              className={cn(
+                "transition-all w-[370px] h-[400px]",
+                "overflow-hidden relative",
+                "border-none shadow-none",
+                "before:absolute before:bg-gradient-to-b before:from-black/30 before:to-black/70 before:z-10",
+                "before:top-0 before:left-0 before:right-0 before:bottom-0 before:h-50 before:w-50",
+              )}
+            >
+              <Image
+                src={card.imageUrl}
+                alt={card.name}
+                height={200}
+                width={100}
+                className={cn(
+                  "inset-0 w-full h-full object-cover",
+                  !isActive && "absolute",
+                )}
+              />
+            </Card>
+
+            <motion.div
+              variants={textContentVariants}
+              animate={activeId ? (isActive ? "hidden" : "visible") : "hidden"}
+              className={cn(
+                "absolute bottom-2 left-2 text-white p-2 rounded z-20",
+              )}
+            >
+              <motion.div variants={textVariants} className="font-bold">{card.name}</motion.div>
+              <motion.div variants={textVariants} className="text-sm">{card.designation}</motion.div>
+            </motion.div>
+
+            <AnimatePresence>
+              {isActive && (
+                <motion.div
+                  key={'modal'}
+                  variants={variants}
+                  initial={'hidden'}
+                  animate={'visible'}
+                  exit={'exit'}
+                  transition={{ duration: 1 }}
+                  className="absolute top-0 right-0 w-[400px] h-full bg-white shadow-xl z-10 p-4 overflow-auto text-justify"
+                >
+                  {/*<h3 className="text-lg font-semibold mb-2">{card.name}</h3>*/}
+                  <p className="text-sm text-gray-700">{card.description}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Card>
+        );
+      })}
+    </div>
+  );
+};
+

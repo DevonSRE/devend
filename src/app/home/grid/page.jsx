@@ -2,12 +2,14 @@
 import Image from "next/image";
 import gridOne from "../../../../public/grid_one.png";
 import gridTwo from "../../../../public/grid_two.png";
-import gridThree from "../../../../public/grid_three.png";
+import gridThree from "../../../../public/images/devend-1.png";
+// import gridThree from "../../../../public/grid_three.png";
 import gridFour from "../../../../public/grid_four.png";
 import gridFive from "../../../../public/grid_five.png";
 import gridSix from "../../../../public/grid_six.png";
 import gridSeven from "../../../../public/grid_seven.png";
-import gridEight from "../../../../public/grid_eight.png";
+import gridEight from "../../../../public/images/devend-2.png";
+// import gridEight from "../../../../public/grid_eight.png";
 import gridNine from "../../../../public/grid_nine.png";
 
 const Grid = () => {
@@ -16,6 +18,7 @@ const Grid = () => {
       {/* Row 1 */}
       <div className="flex w-full">
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridOne}
             alt="Grid image 1"
@@ -26,6 +29,7 @@ const Grid = () => {
           />
         </div>
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridTwo}
             alt="Grid image 2"
@@ -36,6 +40,7 @@ const Grid = () => {
           />
         </div>
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridThree}
             alt="Grid image 3"
@@ -50,6 +55,7 @@ const Grid = () => {
       {/* Row 2 */}
       <div className="flex w-full">
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridFour}
             alt="Grid image 4"
@@ -66,7 +72,8 @@ const Grid = () => {
             fill
             sizes="(max-width: 768px) 33vw, 500px"
           />
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/60 z-10" />
+          <div className="absolute inset-0 flex items-center justify-center z-20">
             <div>
               <p className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center px-4">
                 DEVEND IN PICTURES
@@ -86,6 +93,7 @@ const Grid = () => {
           </div>
         </div>
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 z-10" />
           <Image
             src={gridSix}
             alt="Grid image 6"
@@ -99,6 +107,7 @@ const Grid = () => {
       {/* Row 3 */}
       <div className="flex w-full">
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridSeven}
             alt="Grid image 7"
@@ -108,6 +117,7 @@ const Grid = () => {
           />
         </div>
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridEight}
             alt="Grid image 8"
@@ -117,6 +127,7 @@ const Grid = () => {
           />
         </div>
         <div className="w-1/3 relative aspect-square">
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/30 z-10" />
           <Image
             src={gridNine}
             alt="Grid image 9"
