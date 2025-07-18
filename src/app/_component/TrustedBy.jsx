@@ -1,8 +1,10 @@
 'use client';
 
-import Image from "next/image";
+import { Logos3 } from "@/components/blocks/logos3";
+// import Image from "next/image";
 
 
+/*
 const trustedBy = [
   { id: 1, title: 'DEAN', subtitle: 'Clients', image: '/images/dean.org.ng.png' },
   { id: 2, title: 'PCNGi', subtitle: 'Clients', image: '/images/pcngi.png' },
@@ -10,6 +12,44 @@ const trustedBy = [
   { id: 5, title: 'PPDC', subtitle: 'Clients', image: '/images/ppdc.png' },
   { id: 4, title: 'Devon', subtitle: 'Clients', image: '/images/devon.png' },
 ];
+*/
+
+const trustedByData = {
+  heading: "",
+  isHeader: false,
+  logos: [ // add to the list. 7 items triggers carousel effect
+    {
+      id: "logo-1",
+      description: "DEAN",
+      image: "/images/dean.org.ng.png",
+      className: "h-auto w-16",
+    },
+    {
+      id: "logo-2",
+      description: "PCNGi",
+      image: "/images/pcngi.png",
+      className: "h-auto w-24",
+    },
+    {
+      id: "logo-3",
+      description: "FEMADEC Group",
+      image: "/images/femadec-group.png",
+      className: "h-auto w-28",
+    },
+    {
+      id: "logo-4",
+      description: "PPDC",
+      image: "/images/ppdc.png",
+      className: "h-auto w-28",
+    },
+    {
+      id: "logo-5",
+      description: "Devon",
+      image: "/images/devon.png",
+      className: "h-auto w-24",
+    },
+  ],
+};
 
 export function TrustedBy() {
   return (
@@ -22,9 +62,9 @@ export function TrustedBy() {
           </h3>
           <div className="flex-1 h-0.5 bg-[#211434]/10"></div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-center relative">
+        <div className="relative">
           <div className="absolute w-full h-0.5 bg-[#211434]/10 -bottom-2"></div>
-          {trustedBy.map((item) => (
+          {/* trustedBy.map((item) => (
             <div key={item.title} className="p-1">
               <Image
                 src={item.image}
@@ -33,10 +73,9 @@ export function TrustedBy() {
                 width={160}
                 className="mx-auto aspect-video object-contain"
               />
-              {/*<h4 className="text-lg font-semibold mb-2 text-[#211434]">{item.title}</h4>
-              <p className="text-sm text-[#211434]/70">{item.subtitle}</p>*/}
             </div>
-          ))}
+          )) */}
+          <Logos3 {...trustedByData} />
         </div>
       </div>
     </section>
