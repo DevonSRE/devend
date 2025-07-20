@@ -1,6 +1,7 @@
-import Image from "next/image";
-import coupleImgTwo from "../../../../public/couple_img_two.png";
+// import Image from "next/image";
+// import coupleImgTwo from "../../../../public/couple_img_two.png";
 import Link from "next/link";
+import TestimonialCarousel from "@/app/_component/TestimonialCarousel";
 
 const Clients = () => {
   return (
@@ -8,22 +9,23 @@ const Clients = () => {
       <div className="flex justify-center mt-20 text-[#211434] md:px-6 px-4">
         <div className="mt-2 max-w-[1000px]">
           <div className="flex gap-6">
-            <div className="">
-              <div className="max-w-[300px] mb-4">
-                <p className="md:text-3xl text-2xl font-semibold">
+            <div className="text-center flex flex-col items-center">
+              <div className="max-w-fit mb-4">
+                <p className="md:text-3xl text-2xl font-semibold text-center">
                   Hear From Our Happy Clients
                 </p>
               </div>
+              <TestimonialCarousel />
 
-              <div className="border border-[#cccccc] p-5 md:p-8 rounded-xl bg-white relative md:-mr-24 z-10">
+              {/*<div className="border border-[#cccccc] p-5 md:p-8 rounded-xl bg-white relative md:-mr-24 z-10">
                 <div className="flex justify-end gap-1">
                   <div className="bg-[#2A1C51] px-5 py-0.5 rounded-lg"></div>
                   <div className="rounded-full bg-[#CCCCCC] p-0.5"></div>
                   <div className="rounded-full bg-[#CCCCCC] p-0.5"></div>
                 </div>
-                {/*<h4 className="text-lg md:text-2xl font-semibold text-[#211434]">
+                <h4 className="text-lg md:text-2xl font-semibold text-[#211434]">
                   Nothing But Exceptional
-                </h4>*/}
+                </h4>
                 <h4 className="text-lg md:text-2xl font-semibold text-[#211434]">
                   Superb Services
                 </h4>
@@ -31,10 +33,10 @@ const Clients = () => {
                   I want to thank Dev End for what they have done in a short notice, within a short notice. They were able to put this together and it was top-notch. Their services are superb. I thank you very much for meeting all my requirements and giving me what I needed. You have added more sunshine to my event. Thank you.
                 </p>
                 <p className="text-left mt-4 font-semibold text-[#211434]">Engr Mary</p>
-              </div>
+              </div>*/}
             </div>
 
-            <div className="relative">
+            {/*<div className="relative">
               <Image
                 src={coupleImgTwo}
                 alt="An image of a couple"
@@ -42,7 +44,7 @@ const Clients = () => {
                 height={100}
                 className="hidden md:block"
               />
-            </div>
+            </div>*/}
           </div>
         </div>
 

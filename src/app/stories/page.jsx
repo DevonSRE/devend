@@ -3,6 +3,9 @@ import storiesImgOne from "../../../public/stories_one.png";
 import storiesImgTwo from "../../../public/stories_two.png";
 import Footer from "../home/footer/page";
 import Image from "next/image";
+import { testimonials } from "@/lib/constants";
+
+
 
 const Stories = () => {
   return (
@@ -19,9 +22,42 @@ const Stories = () => {
         </div>
       </div>
 
-      <div className="flex justify-center text-[#211434] mt-10">
+      <div className="flex justify-center text-[#211434] my-10">
         <div className="px-4 max-w-[900px]">
-          <div className="md:grid grid-cols-2 gap-4">
+          <div className="md:grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {testimonials.map((item) => {
+              return (
+                <div className="mb-4 md:mb-0" key={item.id}>
+                  {item.image && (
+                    <Image src={item.image} alt={item.author} height={210} width={200} />
+                  )}
+                  <p className="mb-4 font-semibold text-lg mt-6">{item.author}</p>
+                  <p className="text-sm mb-4 italic">{item.quote}</p>
+                  <p className="mb-1 text-xs">{item.author}</p>
+                  <p className="text-sm font-medium">{item.title}</p>
+                </div>
+              );
+            })}
+
+            {/*<div>
+              <Image
+                src={storiesImgTwo}
+                alt="An image of a group of people listening to a TED talk"
+              />
+              <p className="mb-4 font-semibold text-lg mt-6">Resounding</p>
+              <p className="text-sm mb-4">
+                TechCon 2024 was a resounding success. The conference was hailed
+                as a game-changer in the tech industry, exceeding all
+                expectations. DevEnd showed experience, had resources, and
+                expertise to handle every aspect of the event, from concept to
+                completion.
+              </p>
+              <p className="mb-1 font-medium">TechCon Conference 2024</p>
+              <p className="text-sm">Abuja,2024</p>
+            </div>*/}
+          </div>
+
+          {/*<div className="md:grid grid-cols-2 gap-4 mt-10">
             <div className="mb-4 md:mb-0">
               <Image src={storiesImgOne} alt="An image of a couple" />
               <p className="mb-4 font-semibold text-lg mt-6">
@@ -57,45 +93,7 @@ const Stories = () => {
               <p className="mb-1 font-medium">TechCon Conference 2024</p>
               <p className="text-sm">Abuja,2024</p>
             </div>
-          </div>
-
-          <div className="md:grid grid-cols-2 gap-4 mt-10">
-            <div className="mb-4 md:mb-0">
-              <Image src={storiesImgOne} alt="An image of a couple" />
-              <p className="mb-4 font-semibold text-lg mt-6">
-                Nothing but Execeptional
-              </p>
-              <p className="text-sm mb-4">
-                Working with Devend was an absolute pleasure. From the initial
-                consultation to the final execution, their team was incredibly
-                professional, creative, and attentive to detail. They truly
-                brought our vision for our wedding to life, exceeding our
-                expectations in every way. The food was exceptional, the
-                logistics were seamless, and the overall experience was
-                unforgettable. We highly recommend their services to anyone
-                planning a special event.
-              </p>
-              <p className="mb-1 font-medium">Mr & Mrs. Adebayo</p>
-              <p className="text-sm">2023</p>
-            </div>
-
-            <div>
-              <Image
-                src={storiesImgTwo}
-                alt="An image of a group of people listening to a TED talk"
-              />
-              <p className="mb-4 font-semibold text-lg mt-6">Resounding</p>
-              <p className="text-sm mb-4">
-                TechCon 2024 was a resounding success. The conference was hailed
-                as a game-changer in the tech industry, exceeding all
-                expectations. DevEnd showed experience, had resources, and
-                expertise to handle every aspect of the event, from concept to
-                completion.
-              </p>
-              <p className="mb-1 font-medium">TechCon Conference 2024</p>
-              <p className="text-sm">Abuja,2024</p>
-            </div>
-          </div>
+          </div>*/}
         </div>
       </div>
 

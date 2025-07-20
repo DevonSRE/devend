@@ -45,7 +45,7 @@ const Home = () => {
                 Setting the Benchmark for Service Delivery
               </h2>
               <p className='mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-[#191919]/80 max-w-[90%]'>
-                Experience Excellence in Event Management, Logistics, Catering.
+                Experience Excellence in Event Management, Logistics, and Catering.
               </p>
 
               <div className='mt-6 sm:mt-8'>
