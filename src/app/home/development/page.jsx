@@ -24,7 +24,7 @@ const Development = () => {
 
           <div className="border-t border-[#ccccc] my-8"></div>
 
-          <div className='flex gap-10'>
+          {/*<div className='flex gap-10'>
             <div className="grid grid-rows gap-2">
               <p className="md:text-[48px] text-[28px] text-2xl font-semibold">200 +</p>
               <p className="text-sm md:font-medium">Successful Events</p>
@@ -34,7 +34,7 @@ const Development = () => {
               <p className="md:text-[48px] text-[28px] text-2xl font-semibold">2 +</p>
               <p className="text-sm md:font-medium">Years of Experience</p>
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>

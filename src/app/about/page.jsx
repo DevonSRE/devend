@@ -15,6 +15,10 @@ import { ArrowRightIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 
+
+``
+
+
 const boardMembers = [
   {
     id: '1',
@@ -28,14 +32,14 @@ const boardMembers = [
     imageUrl: '/images/board/member.png',
     name: 'Obiora Chukwumba',
     designation: 'Board Member',
-    description: 'Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.',
+    description: 'Obiora Chukwumba is a seasoned and versatile media professional with a strong track record in newspaper and magazine production, wire reporting, broadcast content creation, and file regulation. He began his media career with African Concord and has since built a diverse portfolio across multiple media platforms. Obiora holds a Mass Communication degree from the Institute of Management and Technology (IMT), Enugu, an M.Sc in Mass Communication from Benue State University, Makurdi, and a PhD in Media Arts from the University of Abuja.',
   },
   {
     id: '3',
     imageUrl: '/images/board/director.jpg',
     name: 'Lucy James Abagi',
     designation: 'Board Director & Chief Executive Officer (PPDC)',
-    description: ' Ifunanya Okeke is a law graduate from Babcock University, Ogun State, with a diploma in Criminology and Security Studies. She is an associate of the Chartered Institute of Arbitrators UK - Nigeria and the Institute of Chartered Secretaries and Administrators. She is also trained by the United Nations Office on Drugs and Crime (UNODC).',
+    description: 'Lucy James Abagi is the Board Director and Chief Executive Officer of the Public and Private Development Centre (PPDC), where she provides visionary leadership to advance governance, transparency, and accountability across Africa. Before becoming CEO, she served as Director of Partnerships and Innovation, strengthening strategic collaborations across sectors and leading teams in business development, innovation, and technology. Her extensive background in program development, stakeholder engagement, and strategic partnerships has been vital in expanding PPDC’s reach and impact. Prior to joining PPDC, Lucy was the Director of Programs at Connected Development (CODE), where she led the Follow the Money campaign, mobilizing $5 million in donor funding and positively impacting over 4 million lives in rural communities across nine African countries. She holds an MBA and brings deep expertise in managing large-scale initiatives, driving donor-funded programs, and implementing accountability systems. Lucy remains committed to fostering sustainable development and social impact across the continent.',
   }
 ];
 
@@ -46,7 +50,7 @@ const team = [
     imageUrl: '/images/team/ify.png',
     name: 'Ifunanya Okeke Esq',
     designation: 'CEO Development Endeavours',
-    description: 'Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.',
+    description: 'Ifunanya Okeke is a law graduate from Babcock University, Ogun State, with a diploma in Criminology and Security Studies. She is an associate of the Chartered Institute of Arbitrators UK - Nigeria and the Institute of Chartered Secretaries and Administrators. She is also trained by the United Nations Office on Drugs and Crime (UNODC).',
     socialLinks: {
       linkedin: 'https://www.linkedin.com/in/ifunanya-okeke/',
     },
@@ -181,7 +185,7 @@ const About = () => {
           </div>
 
           <div className="flex justify-center max-w-[900px] text-[#ccc] my-3">
-            <div className="flex gap-10">
+            {/*<div className="flex gap-10">
               <div className="grid grid-rows gap-4">
                 <p className="md:text-[40px] text-[28px] text-2xl font-semibold">
                   200 <span className="text-white">+</span>
@@ -195,7 +199,7 @@ const About = () => {
                 </p>
                 <p className="text-sm">Years of Experience</p>
               </div>
-            </div>
+            </div>*/}
 
             <div className="border-t border-[#ccc] my-8"></div>
           </div>
