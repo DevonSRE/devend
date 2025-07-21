@@ -128,13 +128,19 @@ const sendEmail = async (data) => {
       Messages: [
         {
           From: {
-            Email: data.email,
-            Name: `${data.firstname} ${data.lastname}`
+            Email: 'info@devontech.io',
+            Name: 'Devon Techonologies LTD',
           },
           To: [
             {
               Email: 'info@dev-end.org',
               Name: 'Devend',
+            },
+          ],
+          Cc: [
+            {
+              Email: 'ifunanya@dev-end.org',
+              Name: 'Ifunanya Okeke',
             },
           ],
           Subject: `New ${data.service ? `${data.service} ` : ''}Inquiry from ${data.firstname} ${data.lastname}`,
