@@ -132,17 +132,21 @@ const sendEmail = async (data) => {
             Name: 'Devon Techonologies LTD',
           },
           To: [
+            // {
+            //   Email: 'info@dev-end.org',
+            //   Name: 'Devend',
+            // },
             {
-              Email: 'info@dev-end.org',
-              Name: 'Devend',
+              Email: 'ireoluwa@devontech.io',
+              Name: 'Devend (Name of receiver)',
             },
           ],
-          Cc: [
-            {
-              Email: 'ifunanya@dev-end.org',
-              Name: 'Ifunanya Okeke',
-            },
-          ],
+          // Cc: [
+          //   {
+          //     Email: 'ifunanya@dev-end.org',
+          //     Name: 'Ifunanya Okeke',
+          //   },
+          // ],
           Subject: `New ${data.service ? `${data.service} ` : ''}Inquiry from ${data.firstname} ${data.lastname}`,
           TextPart: textContent,
           HTMLPart: htmlContent,
