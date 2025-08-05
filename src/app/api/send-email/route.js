@@ -120,7 +120,7 @@ const createEmailContent = (data) => {
 
 const sendEmail = async (data) => {
   const { htmlContent, textContent } = createEmailContent(data);
-  console.log({ htmlContent, textContent })
+  // console.log({ htmlContent, textContent })
 
   const request = mailjet
     .post('send', { version: 'v3.1' })
@@ -132,21 +132,17 @@ const sendEmail = async (data) => {
             Name: 'Devon Techonologies LTD',
           },
           To: [
-            // {
-            //   Email: 'info@dev-end.org',
-            //   Name: 'Devend',
-            // },
             {
-              Email: 'ireoluwa@devontech.io',
-              Name: 'Devend (Name of receiver)',
+              Email: 'info@dev-end.org',
+              Name: 'Devend',
             },
           ],
-          // Cc: [
-          //   {
-          //     Email: 'ifunanya@dev-end.org',
-          //     Name: 'Ifunanya Okeke',
-          //   },
-          // ],
+          Cc: [
+            {
+              Email: 'ifunanya@dev-end.org',
+              Name: 'Ifunanya Okeke',
+            },
+          ],
           Subject: `New ${data.service ? `${data.service} ` : ''}Inquiry from ${data.firstname} ${data.lastname}`,
           TextPart: textContent,
           HTMLPart: htmlContent,
@@ -168,9 +164,9 @@ export async function POST(req) {
     return new Response(
       JSON.stringify({
         error: `Missing required fields: ${missingFields.join(', ')}`
-      }),
-      { status: 400 }
-    );
+      }), {
+      status: 400,
+    });
   }
 
   try {
@@ -180,7 +176,7 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Mailjet Error:', error.response?.data || error);
+    // console.error('Mailjet Error:', error.response?.data || error);
     return new Response(
       JSON.stringify({ error: 'Failed to send email.' }),
       { status: 500 }
