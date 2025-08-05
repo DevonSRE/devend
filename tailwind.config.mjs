@@ -52,7 +52,8 @@ export default {
         brand: {
           light: '#E5D5FC',
           DEFAULT: '#2e1a47',
-          dark: '#3b2259',
+          // dark: '#3b2259',
+          dark: '#211434',
         },
       },
       borderRadius: {
