@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import { Loader2Icon } from "lucide-react";
+import React, { useActionState, useState } from "react";
 import { toast } from 'sonner';
 
 const FooterForm = () => {
@@ -17,34 +18,58 @@ const FooterForm = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (_prevState, formData) => {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
 
     if (!formData.name || !formData.email || !formData.message) {
       toast.error("Please fill all the fields.");
       return;
     }
 
+    const splitNames = formData.name.split(" ");
+    if (splitNames.length < 2) {
+      toast.error("Please fill in your first name and last name.");
+      return;
+    }
+
+    const payload = {
+      email: formData.email,
+      message: formData.message,
+      firstname: splitNames[0],
+      lastname: splitNames[1],
+    };
+
     try {
       const response = await fetch("/api/send-email", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
-      if (!response.ok) throw new Error('Network response was not ok');
+      if (!response.ok) {
+        const errObj = await response.json();
+        const error = errObj.error;
+        throw new Error(error);
+      }
       toast.success("Message sent successfully!");
       setFormData({ name: "", email: "", message: "" });
+      const res = await response.json();
+      return { success: true, message: res.message };
     } catch (error) {
-      toast.error("Failed to send message. Please try again later.");
+      toast.error("Failed to send message. Please try again later.", {
+        description: error.message,
+      });
+      return { error: error.message, success: false, message: error.message, };
     }
   };
 
+  const [state, action, pending] = useActionState(handleSubmit, undefined);
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={action}>
       <div className="md:grid grid-cols-2 gap-4 my-10">
         <div className="mb-8 md:mb-0">
-          <label htmlFor="name" className="text-sm text-[#cccccc] block mb-2">Name</label>
+          <label htmlFor="name" className="text-sm text-[#cccccc] block mb-2">Full Name</label>
           <input
             id="name"
             name="name"
@@ -78,12 +103,17 @@ const FooterForm = () => {
           className="w-full bg-transparent border-b border-[#ccc] py-2 outline-none text-white"
           rows="3"
         />
+        {state && (JSON.stringify(state))}
       </div>
 
       <button
         type="submit"
-        className="text-white border-white border px-6 py-3 rounded-lg mt-5"
+        className="relative flex items-center justify-center overflow-hidden text-white border-white border px-6 py-3 rounded-lg mt-5"
+        disabled={pending}
       >
+        {pending && (<p className="absolute top-0 left-0 bg-brand-dark h-full w-full grid place-content-center">
+          <Loader2Icon className="animate-spin" />
+        </p>)}
         Send Message
       </button>
     </form>
