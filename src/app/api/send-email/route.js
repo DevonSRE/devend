@@ -137,41 +137,25 @@ const sendEmail = async (data) => {
 
   const mailConfig = [
     // test config
+    /*
     {
       From: {
         Email: "godswill@devontech.io",
         Name: "Devon Techonologies LTD",
       },
-
       To: [
         {
           Email: "godswill@devontech.io",
           Name: "Godswill Tester",
         },
       ],
-
-      /*
-      Cc: [
-        {
-          Email: "meshach@dev-end.org",
-          Name: "Meshach Bulusson",
-        },
-        {
-          Email: "vivian@dev-end.org",
-          Name: "Vivian Daniel-Nwaorisara",
-        },
-        {
-          Email: "ifunanya@dev-end.org",
-          Name: "Ifunanya Okeke",
-        },
-      ],
-      */
+      Cc: [ ],
 
       Subject: `New ${data.service ? `${data.service} ` : ""}Inquiry from ${data.firstname} ${data.lastname}`,
       TextPart: textContent,
       HTMLPart: htmlContent,
     },
-    /*
+    */
     // live config
     {
       From: {
@@ -205,7 +189,6 @@ const sendEmail = async (data) => {
       TextPart: textContent,
       HTMLPart: htmlContent,
     },
-    */
   ];
 
   const request = mailjet.post("send", { version: "v3.1" }).request({
@@ -219,13 +202,40 @@ export async function POST(req) {
   const data = await req.json();
 
   // Validate required fields
-  const requiredFields = ["firstname", "lastname", "email"];
+  const requiredFields = [
+    "firstname",
+    "lastname",
+    "email",
+    /*
+    "phone",
+    "date",
+    "needs",
+    "budget",
+    "guest",
+    "service",
+    */
+  ];
   const missingFields = requiredFields.filter((field) => !data[field]);
+
+  /*
+  const checkedItems = data["eventTypes"] || {};
+  if (!Object.values(checkedItems).some(Boolean)) {
+    missingFields.push("eventTypes");
+    // data["eventTypes"] = "Please select at least one event type";
+  }
+  if (Object.keys(checkedItems).includes("others")) {
+    if (checkedItems.others === "") {
+      missingFields.push("eventTypes");
+      // data["eventTypes"] = "Please provide details for other event type";
+    }
+  }
+  */
 
   if (missingFields.length > 0) {
     return new Response(
       JSON.stringify({
-        error: `Missing required fields: ${missingFields.join(", ")}`,
+        error:
+          "You have missing required fields. Check the form and try again.", // `Missing required fields: ${missingFields.join(", ")}`,
       }),
       {
         status: 400,
