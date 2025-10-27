@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Calendar } from "@/components/ui/calendar";
@@ -55,9 +55,14 @@ export default function Page() {
   const [checkedItems, setCheckedItems] = useState({});
   const [isOthers, setIsOthers] = useState(false);
 
+  const formRef = useRef(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate(values, checkedItems);
+    const validationErrors = validate(
+      { ...values, service: "event-management" },
+      checkedItems,
+    );
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length > 0) return;
@@ -80,6 +85,7 @@ export default function Page() {
 
       if (response.ok) {
         toast.success("Message sent successfully!");
+        setCheckedItems({});
         setValues({
           firstname: "",
           lastname: "",
@@ -91,7 +97,8 @@ export default function Page() {
           guest: "",
           message: "",
         });
-        setCheckedItems({});
+        setEventDate(undefined);
+        formRef.current.reset();
       } else {
         toast.error("Failed to send message. Please try again.");
       }
@@ -133,6 +140,7 @@ export default function Page() {
     if (!values.needs) errors.needs = "Planning needs are required";
     if (!values.budget) errors.budget = "Budget is required";
     if (!values.guest) errors.guest = "Guest count is required";
+    if (!values.service) errors.guest = "Service is required";
 
     if (!Object.values(checkedItems).some(Boolean)) {
       errors.eventType = "Please select at least one event type";
@@ -330,7 +338,11 @@ export default function Page() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="space-y-6 md:space-y-8"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5 md:space-y-2">
                 <Label htmlFor="firstName" className="text-sm sm:text-base">
