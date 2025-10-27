@@ -134,40 +134,82 @@ const createEmailContent = (data) => {
 
 const sendEmail = async (data) => {
   const { htmlContent, textContent } = createEmailContent(data);
-  // console.log({ htmlContent, textContent })
+
+  const mailConfig = [
+    // test config
+    {
+      From: {
+        Email: "godswill@devontech.io",
+        Name: "Devon Techonologies LTD",
+      },
+
+      To: [
+        {
+          Email: "godswill@devontech.io",
+          Name: "Godswill Tester",
+        },
+      ],
+
+      /*
+      Cc: [
+        {
+          Email: "meshach@dev-end.org",
+          Name: "Meshach Bulusson",
+        },
+        {
+          Email: "vivian@dev-end.org",
+          Name: "Vivian Daniel-Nwaorisara",
+        },
+        {
+          Email: "ifunanya@dev-end.org",
+          Name: "Ifunanya Okeke",
+        },
+      ],
+      */
+
+      Subject: `New ${data.service ? `${data.service} ` : ""}Inquiry from ${data.firstname} ${data.lastname}`,
+      TextPart: textContent,
+      HTMLPart: htmlContent,
+    },
+    /*
+    // live config
+    {
+      From: {
+        Email: "info@devontech.io",
+        Name: "Devon Techonologies LTD",
+      },
+
+      To: [
+        {
+          Email: "info@dev-end.org",
+          Name: "Devend",
+        },
+      ],
+
+      Cc: [
+        {
+          Email: "meshach@dev-end.org",
+          Name: "Meshach Bulusson",
+        },
+        {
+          Email: "vivian@dev-end.org",
+          Name: "Vivian Daniel-Nwaorisara",
+        },
+        {
+          Email: "ifunanya@dev-end.org",
+          Name: "Ifunanya Okeke",
+        },
+      ],
+
+      Subject: `New ${data.service ? `${data.service} ` : ""}Inquiry from ${data.firstname} ${data.lastname}`,
+      TextPart: textContent,
+      HTMLPart: htmlContent,
+    },
+    */
+  ];
 
   const request = mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: "info@devontech.io",
-          Name: "Devon Techonologies LTD",
-        },
-        To: [
-          {
-            Email: "info@dev-end.org",
-            Name: "Devend",
-          },
-        ],
-        Cc: [
-          {
-            Email: "meshach@dev-end.org",
-            Name: "Meshach Bulusson",
-          },
-          {
-            Email: "vivian@dev-end.org",
-            Name: "Vivian Daniel-Nwaorisara",
-          },
-          {
-            Email: "ifunanya@dev-end.org",
-            Name: "Ifunanya Okeke",
-          },
-        ],
-        Subject: `New ${data.service ? `${data.service} ` : ""}Inquiry from ${data.firstname} ${data.lastname}`,
-        TextPart: textContent,
-        HTMLPart: htmlContent,
-      },
-    ],
+    Messages: mailConfig,
   });
 
   return request;
