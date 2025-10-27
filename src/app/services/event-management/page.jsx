@@ -1,21 +1,25 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import Image from 'next/image'
-import { toast } from "sonner"
-import { Calendar } from "@/components/ui/calendar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { CalendarIcon, Loader2Icon } from "lucide-react"
-import { format } from "date-fns"
+import React, { useRef, useState } from "react";
+import Image from "next/image";
+import { toast } from "sonner";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CalendarIcon, Loader2Icon } from "lucide-react";
+import { format } from "date-fns";
 
-import uniqueImg from "../../../../public/about-us-cropped.png"
-import TestimonialCarousel from '@/app/_component/TestimonialCarousel'
-import { TrustedBy } from '@/app/_component/TrustedBy'
+import uniqueImg from "../../../../public/about-us-cropped.png";
+import TestimonialCarousel from "@/app/_component/TestimonialCarousel";
+import { TrustedBy } from "@/app/_component/TrustedBy";
 
 const eventTypes = [
   { id: "corporate-event", label: "Corporate Event" },
@@ -29,11 +33,11 @@ const eventTypes = [
   { id: "fundraising-event", label: "Fundraising Event" },
   { id: "conference", label: "Conference" },
   { id: "logistics", label: "Logistics" },
-  { id: "others", label: "Others" }
-]
+  { id: "others", label: "Others" },
+];
 
 export default function Page() {
-  const [eventDate, setEventDate] = useState(undefined)
+  const [eventDate, setEventDate] = useState(undefined);
   const [values, setValues] = useState({
     firstname: "",
     lastname: "",
@@ -45,21 +49,30 @@ export default function Page() {
     budget: "",
     guest: "",
     message: "",
-  })
-  const [errors, setErrors] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
-  const [checkedItems, setCheckedItems] = useState({})
+  });
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [checkedItems, setCheckedItems] = useState({});
   const [isOthers, setIsOthers] = useState(false);
 
+  const formRef = useRef(null);
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const validationErrors = validate(values, checkedItems)
-    setErrors(validationErrors)
+    e.preventDefault();
+    const validationErrors = validate(
+      { ...values, service: "event-management" },
+      checkedItems,
+    );
+    setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length > 0) return
+    if (Object.keys(validationErrors).length > 0) return;
 
-    setIsLoading(true)
-    const payload = { ...values, eventTypes: checkedItems, service: 'event-management' };
+    setIsLoading(true);
+    const payload = {
+      ...values,
+      eventTypes: checkedItems,
+      service: "event-management",
+    };
 
     try {
       const response = await fetch("/api/send-email", {
@@ -68,10 +81,11 @@ export default function Page() {
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      });
 
       if (response.ok) {
-        toast.success("Message sent successfully!")
+        toast.success("Message sent successfully!");
+        setCheckedItems({});
         setValues({
           firstname: "",
           lastname: "",
@@ -82,28 +96,32 @@ export default function Page() {
           budget: "",
           guest: "",
           message: "",
-        })
-        setCheckedItems({})
+        });
+        setEventDate(undefined);
+        formRef.current.reset();
       } else {
-        toast.error("Failed to send message. Please try again.")
+        toast.error("Failed to send message. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.")
-      console.error(error)
+      toast.error("An error occurred. Please try again.");
+      console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleDateChange = (date) => {
     setEventDate(date);
-    setValues(prev => ({ ...prev, date: date ? format(date, "yyyy-MM-dd") : '' }));
+    setValues((prev) => ({
+      ...prev,
+      date: date ? format(date, "yyyy-MM-dd") : "",
+    }));
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setValues(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
 
   /*
   const handleCheckboxChange = (e) => {
@@ -113,45 +131,49 @@ export default function Page() {
   */
 
   const validate = (values, checkedItems) => {
-    const errors = {}
-    if (!values.firstname) errors.firstname = "First name is required"
-    if (!values.lastname) errors.lastname = "Last name is required"
-    if (!values.email) errors.email = "Email is required"
-    if (!values.phone) errors.phone = "Phone number is required"
-    if (!values.date) errors.date = "Date is required"
-    if (!values.needs) errors.needs = "Planning needs are required"
-    if (!values.budget) errors.budget = "Budget is required"
-    if (!values.guest) errors.guest = "Guest count is required"
+    const errors = {};
+    if (!values.firstname) errors.firstname = "First name is required";
+    if (!values.lastname) errors.lastname = "Last name is required";
+    if (!values.email) errors.email = "Email is required";
+    if (!values.phone) errors.phone = "Phone number is required";
+    if (!values.date) errors.date = "Date is required";
+    if (!values.needs) errors.needs = "Planning needs are required";
+    if (!values.budget) errors.budget = "Budget is required";
+    if (!values.guest) errors.guest = "Guest count is required";
+    if (!values.service) errors.guest = "Service is required";
 
     if (!Object.values(checkedItems).some(Boolean)) {
-      errors.eventType = "Please select at least one event type"
+      errors.eventType = "Please select at least one event type";
     }
-    if (Object.keys(checkedItems).includes('others')) {
+    if (Object.keys(checkedItems).includes("others")) {
       if (checkedItems.others === "") {
         errors.eventType = "Please provide details for other event type";
       }
     }
 
-    return errors
-  }
+    return errors;
+  };
 
   const addToCheckedItems = (itemId, value) => {
-    const selectedEventType = eventTypes.find(type => type.id === itemId);
-    setCheckedItems(prev => ({ ...prev, [selectedEventType.id]: value ?? selectedEventType.label }));
-  }
+    const selectedEventType = eventTypes.find((type) => type.id === itemId);
+    setCheckedItems((prev) => ({
+      ...prev,
+      [selectedEventType.id]: value ?? selectedEventType.label,
+    }));
+  };
 
   const handleEventTypeChange = (id, isChecked) => {
     if (isChecked) {
-      if (id === 'others') {
+      if (id === "others") {
         setIsOthers(true);
-        addToCheckedItems('others', '');
+        addToCheckedItems("others", "");
       } else {
         addToCheckedItems(id);
       }
     } else {
       // TODO: remove from list of checkedItems
-      const selectedEventType = eventTypes.find(type => type.id === id);
-      setCheckedItems(prev => {
+      const selectedEventType = eventTypes.find((type) => type.id === id);
+      setCheckedItems((prev) => {
         // ({ ...prev, [selectedEventType.id]: "" })
         const itemCopy = { ...prev };
         const isDelete = delete itemCopy[selectedEventType.id];
@@ -161,12 +183,11 @@ export default function Page() {
           return { ...prev };
         }
       });
-      if (id === 'others') {
+      if (id === "others") {
         setIsOthers(false);
       }
     }
   };
-
 
   return (
     <div className="min-h-screen">
@@ -179,8 +200,9 @@ export default function Page() {
             Corporate Events
           </h1>
           <p className="text-sm md:text-base text-[#211434]/80 max-w-[540px] mx-auto">
-            DEV-END is your trusted partner for crafting unforgettable corporate events, from conferences to corporate
-            meetings, seminars and wedding events.
+            DEV-END is your trusted partner for crafting unforgettable corporate
+            events, from conferences to corporate meetings, seminars and wedding
+            events.
           </p>
         </div>
       </section>
@@ -189,12 +211,17 @@ export default function Page() {
       <section className="bg-[#211434] py-12 md:py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-white">Full Service Event Management</h2>
-            <p className="text-white/90 text-sm md:text-base mb-4">We don't just plan an event; we create an experience.</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-white">
+              Full Service Event Management
+            </h2>
+            <p className="text-white/90 text-sm md:text-base mb-4">
+              We don't just plan an event; we create an experience.
+            </p>
             <p className="text-white/80 text-sm md:text-base">
-              From sourcing the ideal venue to the final, thoughtful details, DEV-END's expertise and creativity ensure your
-              corporate event surpasses expectations and achieves real results. We handle the logistics, so you can focus on
-              the big picture.
+              From sourcing the ideal venue to the final, thoughtful details,
+              DEV-END's expertise and creativity ensure your corporate event
+              surpasses expectations and achieves real results. We handle the
+              logistics, so you can focus on the big picture.
             </p>
           </div>
 
@@ -206,11 +233,13 @@ export default function Page() {
               "Educational Seminars",
               "Retreats and Workshops",
               "Product and Business Launch",
-              "Weddings, Birthdays and Dinners"
+              "Weddings, Birthdays and Dinners",
             ].map((service) => (
               <div key={service} className="flex items-center gap-4">
                 <div className="bg-[#EDCC19] w-8 h-0.5"></div>
-                <span className="text-white text-sm md:text-base">{service}</span>
+                <span className="text-white text-sm md:text-base">
+                  {service}
+                </span>
               </div>
             ))}
           </div>
@@ -240,11 +269,14 @@ export default function Page() {
                 </h2>
               </div>
               <p className="text-sm md:text-base text-[#211434]/80">
-                We are your trusted partner in crafting unforgettable corporate events. In a world of fleeting moments, we
-                create experiences that endure. We work closely with you, understanding your unique needs and translating
-                them into events that engage and inspire. From concept to completion, we handle every aspect with
-                precision and care. Our commitment to excellence ensures that your event not only meets but exceeds your
-                expectations, leaving a lasting legacy for your brand.
+                We are your trusted partner in crafting unforgettable corporate
+                events. In a world of fleeting moments, we create experiences
+                that endure. We work closely with you, understanding your unique
+                needs and translating them into events that engage and inspire.
+                From concept to completion, we handle every aspect with
+                precision and care. Our commitment to excellence ensures that
+                your event not only meets but exceeds your expectations, leaving
+                a lasting legacy for your brand.
               </p>
             </div>
           </div>
@@ -300,16 +332,22 @@ export default function Page() {
 
             <div className="mt-4 text-center">
               <p className="max-w-2xl mx-auto text-sm sm:text-base">
-                For event inquiries, please fill out the form below and one of our team members will get back to you
-                within 24 hours.
+                For event inquiries, please fill out the form below and one of
+                our team members will get back to you within 24 hours.
               </p>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+          <form
+            ref={formRef}
+            onSubmit={handleSubmit}
+            className="space-y-6 md:space-y-8"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5 md:space-y-2">
-                <Label htmlFor="firstName" className="text-sm sm:text-base">First Name</Label>
+                <Label htmlFor="firstName" className="text-sm sm:text-base">
+                  First Name (requird)
+                </Label>
                 <Input
                   id="firstName"
                   name="firstname"
@@ -319,9 +357,16 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.firstname && (
+                  <span className="text-xs text-destructive">
+                    *{errors.firstname}
+                  </span>
+                )}
               </div>
               <div className="space-y-1.5 md:space-y-2">
-                <Label htmlFor="lastName" className="text-sm sm:text-base">Last Name</Label>
+                <Label htmlFor="lastName" className="text-sm sm:text-base">
+                  Last Name (requird)
+                </Label>
                 <Input
                   id="lastName"
                   name="lastname"
@@ -331,12 +376,19 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.lastname && (
+                  <span className="text-xs text-destructive">
+                    *{errors.lastname}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-1.5 md:space-y-2">
-                <Label htmlFor="email" className="text-sm sm:text-base">Email Address</Label>
+                <Label htmlFor="email" className="text-sm sm:text-base">
+                  Email Address (requird)
+                </Label>
                 <Input
                   id="email"
                   name="email"
@@ -347,9 +399,16 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.email && (
+                  <span className="text-xs text-destructive">
+                    *{errors.email}
+                  </span>
+                )}
               </div>
               <div className="space-y-1.5 md:space-y-2">
-                <Label htmlFor="phone" className="text-sm sm:text-base">Phone Number</Label>
+                <Label htmlFor="phone" className="text-sm sm:text-base">
+                  Phone Number (requird)
+                </Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -360,11 +419,18 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.phone && (
+                  <span className="text-xs text-destructive">
+                    *{errors.phone}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="space-y-1.5 md:space-y-2">
-              <Label htmlFor="company" className="text-sm sm:text-base">Company</Label>
+              <Label htmlFor="company" className="text-sm sm:text-base">
+                Company
+              </Label>
               <Input
                 id="company"
                 type="text"
@@ -377,15 +443,22 @@ export default function Page() {
             </div>
 
             <div className="space-y-2 md:space-y-3">
-              <Label className="text-sm sm:text-base">Event Type (required)</Label>
+              <Label className="text-sm sm:text-base">
+                Event Type (required)
+              </Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                 {eventTypes.map((type) => (
                   <div key={type.id} className="flex items-center space-x-2">
                     <Checkbox
-                      onCheckedChange={(checked) => handleEventTypeChange(type.id, checked)}
+                      onCheckedChange={(checked) =>
+                        handleEventTypeChange(type.id, checked)
+                      }
                       id={`event-${type.id}`}
                     />
-                    <Label htmlFor={`event-${type.id}`} className="text-sm sm:text-base font-normal">
+                    <Label
+                      htmlFor={`event-${type.id}`}
+                      className="text-sm sm:text-base font-normal"
+                    >
                       {type.label}
                     </Label>
                   </div>
@@ -393,40 +466,66 @@ export default function Page() {
               </div>
               {isOthers && (
                 <div className="max-w-80 h-fit flex items-center gap-2 justify-end ml-auto">
-                  <Input type="text" placeholder="Enter other event type here" value={checkedItems.others || ''} onChange={(e) => { addToCheckedItems('others', e.target.value); }} className="text-sm sm:text-base" />
+                  <Input
+                    type="text"
+                    placeholder="Enter other event type here"
+                    value={checkedItems.others || ""}
+                    onChange={(e) => {
+                      addToCheckedItems("others", e.target.value);
+                    }}
+                    className="text-sm sm:text-base"
+                  />
                 </div>
               )}
               {Object.keys(errors).length > 0 && errors?.eventType && (
-                <span className="text-xs text-destructive">*{errors.eventType}</span>
+                <span className="text-xs text-destructive">
+                  *{errors.eventType}
+                </span>
               )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-2">
-                <Label htmlFor="eventDate" className="text-sm sm:text-base">Event Date</Label>
+                <Label htmlFor="eventDate" className="text-sm sm:text-base">
+                  Event Date (required)
+                </Label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal"
+                    >
                       {eventDate ? (
-                        format(eventDate, "MM/dd/yy")
+                        format(eventDate, "dd-MM-yyyy")
                       ) : (
                         <span className="text-muted-foreground">mm/dd/yy</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="flex flex-col w-auto p-0"
+                    align="start"
+                  >
                     <Calendar
                       mode="single"
                       selected={eventDate}
                       onSelect={handleDateChange}
+                      captionLayout="dropdown-months"
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
+                {Object.keys(errors).length > 0 && errors?.date && (
+                  <span className="text-xs text-destructive">
+                    *{errors.date}
+                  </span>
+                )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="planningNeeds" className="text-sm sm:text-base">Planning Needs</Label>
+                <Label htmlFor="planningNeeds" className="text-sm sm:text-base">
+                  Planning Needs (required)
+                </Label>
                 <Input
                   name="needs"
                   value={values.needs}
@@ -436,12 +535,22 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.needs && (
+                  <span className="text-xs text-destructive">
+                    *{errors.needs}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div className="space-y-2">
-                <Label htmlFor="estimatedBudget" className="text-sm sm:text-base">Estimated Budget</Label>
+                <Label
+                  htmlFor="estimatedBudget"
+                  className="text-sm sm:text-base"
+                >
+                  Estimated Budget (requird)
+                </Label>
                 <Input
                   id="estimatedBudget"
                   placeholder="required*"
@@ -451,9 +560,16 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.budget && (
+                  <span className="text-xs text-destructive">
+                    *{errors.budget}
+                  </span>
+                )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="guestCount" className="text-sm sm:text-base">Estimated Guest Count</Label>
+                <Label htmlFor="guestCount" className="text-sm sm:text-base">
+                  Estimated Guest Count (requird)
+                </Label>
                 <Input
                   id="guestCount"
                   name="guest"
@@ -463,11 +579,18 @@ export default function Page() {
                   required
                   className="text-sm sm:text-base"
                 />
+                {Object.keys(errors).length > 0 && errors?.guest && (
+                  <span className="text-xs text-destructive">
+                    *{errors.guest}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="additionalInfo" className="text-sm sm:text-base">Additional Information</Label>
+              <Label htmlFor="additionalInfo" className="text-sm sm:text-base">
+                Additional Information
+              </Label>
               <Textarea
                 id="additionalInfo"
                 placeholder="Is there anything else that you would like to tell us about your planning needs or vision for your event?"
@@ -485,11 +608,13 @@ export default function Page() {
             >
               {isLoading ? (
                 <Loader2Icon className="h-4 w-4 animate-spin" />
-              ) : ('Submit')}
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </div>
       </section>
     </div>
-  )
+  );
 }
