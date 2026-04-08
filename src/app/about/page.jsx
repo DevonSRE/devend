@@ -253,7 +253,7 @@ const About = () => {
                 Tailored Experience
               </h4>
               <p className="text-sm mt-2">
-                Every event reflects the client's unique tastes and preferences.
+                Every event reflects the client&apos;s unique tastes and preferences.
               </p>
               <div className="border-t border-[#ccc] my-2"></div>
             </div>
@@ -272,7 +272,7 @@ const About = () => {
                 Tailored Experience
               </h4>
               <p className="text-sm mt-2">
-                Every event reflects the client's unique tastes and preferences.
+                Every event reflects the client&apos;s unique tastes and preferences.
               </p>
               <div className="border-t border-[#ccc] my-2"></div>
             </div>
@@ -442,7 +442,7 @@ const About = () => {
       <div className="flex justify-center text-[#211434] px-4">
         <div className="text-center ">
           <p className="md:text-4xl text-3xl font-semibold">
-            Let's Create an Unforgettable Experience
+            Let&apos;s Create an Unforgettable Experience
           </p>
           <p className="mt-3 text-sm max-w-[650px] text-center">
             Plan your next event with ease. Our team handles every detail, from
@@ -733,4 +733,3 @@ const BoardMembersList = ({ cards }) => {
     </div>
   );
 };
-
