@@ -227,10 +227,10 @@ export default function Page() {
               Smooth Transitions For Every Event & Executive Travel Need.
             </h2>
             <p className="text-white/90 text-sm md:text-base mb-4">
-              We don't just plan an event, we create an experience.
+              We don&apos;t just plan an event, we create an experience.
             </p>
             <p className="text-white/80 text-sm md:text-base">
-              From start to finish, DEV-END's logistics expertise ensures
+              From start to finish, DEV-END&apos;s logistics expertise ensures
               seamless delivery and real results. We handle the challenges, so
               you can focus on opportunities.
             </p>
@@ -285,7 +285,7 @@ export default function Page() {
               <div className="flex items-center gap-3 mb-4">
                 <div className="bg-[#2A1C51] w-8 h-0.5"></div>
                 <h2 className="text-2xl sm:text-3xl font-semibold text-[#211434]">
-                  We've got you covered
+                  We&apos;ve got you covered
                 </h2>
               </div>
               <p className="text-sm md:text-base text-[#211434]/80">
@@ -338,7 +338,7 @@ export default function Page() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold mb-8 text-[#211434]">
-              Don't Just Take Our Word For It
+              Don&apos;t Just Take Our Word For It
             </h2>
             <TestimonialCarousel />
           </div>

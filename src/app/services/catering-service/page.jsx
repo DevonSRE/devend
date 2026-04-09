@@ -208,7 +208,7 @@ export default function Page() {
 
             <p className="text-white/80 text-sm md:text-base">
               From sourcing the ideal venue to the final, thoughtful detail,
-              DEV-END's expertise and creativity ensure your corporate event
+              DEV-END&apos;s expertise and creativity ensure your corporate event
               surpasses expectations and delivers real results. We handle the
               logistics, so you can focus on the big picture.
             </p>
@@ -302,7 +302,7 @@ export default function Page() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold mb-8 text-[#211434]">
-              Don't Just Take Our Word For It
+              Don&apos;t Just Take Our Word For It
             </h2>
             <TestimonialCarousel />
           </div>

@@ -30,7 +30,7 @@ const Footer = ({ showForm = true }) => {
               <p>
                 Development Endeavours Ltd. is a leading event management and
                 catering company in Nigeria, renowned for creating unforgettable
-                experiences. We specialize in transforming clients' unique
+                experiences. We specialize in transforming clients&apos; unique
                 visions into seamless and memorable events through personalized
                 planning, diverse catering options, and efficient logistics. Our
                 commitment to innovation, excellence, and client satisfaction
@@ -41,7 +41,7 @@ const Footer = ({ showForm = true }) => {
 
           <div className="">
             <p className="md:text-4xl text-2xl font-semibold">
-              Let's Get Started
+              Let&apos;s Get Started
             </p>
             <FooterForm />
           </div>
@@ -55,6 +55,7 @@ const Footer = ({ showForm = true }) => {
             <Link href="/about">About Us</Link>
             <Link href="/services">Services</Link>
             <Link href="/stories">Client Stories</Link>
+          
             <Link href="/contact">Contact</Link>
           </div>
           <div className="border-t border-[#cccccc] my-4"></div>

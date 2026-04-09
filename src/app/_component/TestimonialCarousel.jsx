@@ -29,7 +29,7 @@ const TestimonialCarousel = () => {
           >
             <div className="p-8 rounded-lg">
               <p className="text-[#211434]/80 text-sm md:text-base mb-6 italic">
-                "{testimonial.quote}"
+                &ldquo;{testimonial.quote}&rdquo;
               </p>
               <div className="font-medium text-[#211434]">
                 <p className="font-semibold">{testimonial.author}</p>

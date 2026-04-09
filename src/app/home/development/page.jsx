@@ -13,7 +13,7 @@ const Development = () => {
           <h1 className="text-2xl md:text-4xl font-semibold">The Development Endeavours Difference</h1>
 
           <p className='text-[#cccccc] mt-8 text-sm max-w-[400px] tracking-wide leading-relaxed'>
-            We are passionate about creating unforgettable experiences.  We have been a leading event management and catering company in Nigeria, transforming clients' visions into reality. Learn more on how we can help you create an unforgettable experience.
+            We are passionate about creating unforgettable experiences.  We have been a leading event management and catering company in Nigeria, transforming clients&apos; visions into reality. Learn more on how we can help you create an unforgettable experience.
           </p>
 
           <Link href="/about">
