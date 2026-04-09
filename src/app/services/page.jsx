@@ -88,10 +88,10 @@ const Services = () => {
                 <h3 className="font-semibold text-lg text-[#211434]">Events Management</h3>
               </div>
               <p className="text-sm md:text-base text-[#211434]/80 mb-6">
-                We don't just plan events; we craft them. From the ground up, we
+                We don&apos;t just plan events; we craft them. From the ground up, we
                 create bespoke experiences with unique lighting, captivating
                 décor, and hand-built elements that leave a lasting impression.
-                Let's bring your vision to life.
+                Let&apos;s bring your vision to life.
               </p>
               <div className="text-center md:text-left">
                 <Link href="/contact">
