@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default async function BrandPage() {
-  const images = await getBrandImages();
-  return <BrandClient images={images} />;
+  const categories = await getBrandImages();
+  return <BrandClient categories={categories} />;
 }
