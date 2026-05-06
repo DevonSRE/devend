@@ -1,55 +1,93 @@
-'use client'
+"use client";
 
-import { useRef, useState } from "react"
-import Image from "next/image"
-import uniqueImg from "../../../public/about-us-cropped.png"
-import Footer from "../home/footer/page"
-import Link from "next/link"
-import { AnimatePresence, motion, Variants } from "framer-motion"
-import { cn } from "@/lib/utils"
-import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
-import { ArrowRightIcon, XIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useRef, useState } from "react";
+import Image from "next/image";
+import uniqueImg from "../../../public/about-us-cropped.png";
+import Footer from "../home/footer/page";
+import Link from "next/link";
+import { AnimatePresence, motion, Variants } from "framer-motion";
+import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowRightIcon, XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface BoardMember {
-  id: string
-  imageUrl: string
-  name: string
-  designation: string
-  description: string
+  id: string;
+  imageUrl: string;
+  name: string;
+  designation: string;
+  description: string;
 }
 
 interface TeamMember extends BoardMember {
   socialLinks: {
-    linkedin: string
-  }
+    linkedin: string;
+  };
 }
 
 const boardMembers: BoardMember[] = [
   {
-    id: '1',
-    imageUrl: '/images/board/chairman.png',
-    name: 'Chibuzor Ekwekwo',
-    designation: 'Board Chairman',
-    description: 'Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.',
+    id: "1",
+    imageUrl: "/images/board/chairman.png",
+    name: "Chibuzor Ekwekwo",
+    designation: "Board Chairman",
+    description:
+      "Chibuzor Ekwekwo is a legal professional with over 24 years of experience spanning litigation, corporate law, and legal consultancy. In the last decade, he has focused on regulatory reforms, corporate management, and institutional development, working with international agencies, governments, private firms, and civil society organizations in Nigeria. He holds an MBA in Management, a Postgraduate Degree in Anti-Corruption Studies, and an MSc in Public Procurement Management for Sustainable Development from the University of Turin, Italy. He is also an American Certified PPP Practitioner and serves on the Governing Board of Rhema University, operating primarily from Abuja.",
   },
   {
-    id: '2',
-    imageUrl: '/images/board/member.png',
-    name: 'Obiora Chukwumba',
-    designation: 'Board Member',
-    description: 'Obiora Chukwumba is a seasoned and versatile media professional with a strong track record in newspaper and magazine production, wire reporting, broadcast content creation, and file regulation. He began his media career with African Concord and has since built a diverse portfolio across multiple media platforms. Obiora holds a Mass Communication degree from the Institute of Management and Technology (IMT), Enugu, an M.Sc in Mass Communication from Benue State University, Makurdi, and a PhD in Media Arts from the University of Abuja.',
+    id: "2",
+    imageUrl: "/images/board/member.png",
+    name: "Obiora Chukwumba",
+    designation: "Board Member",
+    description:
+      "Obiora Chukwumba is a seasoned and versatile media professional with a strong track record in newspaper and magazine production, wire reporting, broadcast content creation, and file regulation. He began his media career with African Concord and has since built a diverse portfolio across multiple media platforms. Obiora holds a Mass Communication degree from the Institute of Management and Technology (IMT), Enugu, an M.Sc in Mass Communication from Benue State University, Makurdi, and a PhD in Media Arts from the University of Abuja.",
   },
   {
-    id: '3',
-    imageUrl: '/images/board/director.jpg',
-    name: 'Lucy James Abagi',
-    designation: 'Board Director & Chief Executive Officer (PPDC)',
-    description: 'Lucy James Abagi is the Board Director and Chief Executive Officer of the Public and Private Development Centre (PPDC), where she provides visionary leadership to advance governance, transparency, and accountability across Africa. Before becoming CEO, she served as Director of Partnerships and Innovation, strengthening strategic collaborations across sectors and leading teams in business development, innovation, and technology. Her extensive background in program development, stakeholder engagement, and strategic partnerships has been vital in expanding PPDC\'s reach and impact. Prior to joining PPDC, Lucy was the Director of Programs at Connected Development (CODE), where she led the Follow the Money campaign, mobilizing $5 million in donor funding and positively impacting over 4 million lives in rural communities across nine African countries. She holds an MBA and brings deep expertise in managing large-scale initiatives, driving donor-funded programs, and implementing accountability systems. Lucy remains committed to fostering sustainable development and social impact across the continent.',
-  }
-]
+    id: "3",
+    imageUrl: "/images/board/director.jpg",
+    name: "Lucy James Abagi",
+    designation: "Board Director & Chief Executive Officer (PPDC)",
+    description:
+      "Lucy James Abagi is the Board Director and Chief Executive Officer of the Public and Private Development Centre (PPDC), where she provides visionary leadership to advance governance, transparency, and accountability across Africa. Before becoming CEO, she served as Director of Partnerships and Innovation, strengthening strategic collaborations across sectors and leading teams in business development, innovation, and technology. Her extensive background in program development, stakeholder engagement, and strategic partnerships has been vital in expanding PPDC's reach and impact. Prior to joining PPDC, Lucy was the Director of Programs at Connected Development (CODE), where she led the Follow the Money campaign, mobilizing $5 million in donor funding and positively impacting over 4 million lives in rural communities across nine African countries. She holds an MBA and brings deep expertise in managing large-scale initiatives, driving donor-funded programs, and implementing accountability systems. Lucy remains committed to fostering sustainable development and social impact across the continent.",
+  },
+];
 
 const team: TeamMember[] = [
+  {
+    id: "3",
+    imageUrl: "/images/team/vivian.jpg",
+    name: "Vivian Daniel-Nwaoriara",
+    designation: "ACIPM, BSc, Head of Human Resources",
+    description:
+      "Vivian Daniel-Nwaorisara holds a Bachelor of Science degree in Business Management from the Rivers State University of Science and Technology. With a professional commitment to growth and excellence, she is a dedicated member of the Chartered Institute of Personnel Management (CIPM).",
+    socialLinks: { linkedin: "http://linkedin.com/in/vivian-nwaorisara" },
+  },
+  {
+    id: "5",
+    imageUrl: "/images/team/shedrach.jpg",
+    name: "John Shedrach",
+    designation: "Head of Logistics",
+    description:
+      "John Shedrach Tukura is a seasoned transport and logistics professional with over a decade of experience supporting public, private, and nonprofit organizations. He is known for his calm, efficient, and strategic approach to logistics operations.",
+    socialLinks: {
+      linkedin: "https://www.linkedin.com/in/shedrack-john-25b7ab271/",
+    },
+  },
+  /*
+  {
+    id: '4',
+    imageUrl: '/images/team/sonia.jpg',
+    name: 'Sonia Yusuf',
+    designation: 'Head of Program/Event',
+    description: 'Sonia Yusuf is a dynamic and results-oriented development professional with over 8 years of experience in grant writing, program management, project implementation, and event coordination. Her career is rooted in driving social impact through innovative, well-structured programs and partnerships.',
+    socialLinks: { linkedin: 'https://www.linkedin.com/in/sonia-yusuf-867ba4123/' },
+  },
   {
     id: '1',
     imageUrl: '/images/team/ify.png',
@@ -66,31 +104,8 @@ const team: TeamMember[] = [
     description: 'Meshach Auta Bulusson is a first-class graduate from Federal University Dutsinma, with a strong academic foundation in accounting and finance. He is an Associate Chartered Accountant (ACA), committed to continuous professional development and excellence in the financial sector.',
     socialLinks: { linkedin: 'https://www.linkedin.com/in/meshach-bulusson-aca' },
   },
-  {
-    id: '3',
-    imageUrl: '/images/team/vivian.jpg',
-    name: 'Vivian Daniel-Nwaoriara',
-    designation: 'ACIPM, BSc, Head of Human Resources',
-    description: 'Vivian Daniel-Nwaorisara holds a Bachelor of Science degree in Business Management from the Rivers State University of Science and Technology. With a professional commitment to growth and excellence, she is a dedicated member of the Chartered Institute of Personnel Management (CIPM).',
-    socialLinks: { linkedin: 'http://linkedin.com/in/vivian-nwaorisara' },
-  },
-  {
-    id: '4',
-    imageUrl: '/images/team/sonia.jpg',
-    name: 'Sonia Yusuf',
-    designation: 'Head of Program/Event',
-    description: 'Sonia Yusuf is a dynamic and results-oriented development professional with over 8 years of experience in grant writing, program management, project implementation, and event coordination. Her career is rooted in driving social impact through innovative, well-structured programs and partnerships.',
-    socialLinks: { linkedin: 'https://www.linkedin.com/in/sonia-yusuf-867ba4123/' },
-  },
-  {
-    id: '5',
-    imageUrl: '/images/team/shedrach.jpg',
-    name: 'John Shedrach',
-    designation: 'Head of Logistics',
-    description: 'John Shedrach Tukura is a seasoned transport and logistics professional with over a decade of experience supporting public, private, and nonprofit organizations. He is known for his calm, efficient, and strategic approach to logistics operations.',
-    socialLinks: { linkedin: 'https://www.linkedin.com/in/shedrack-john-25b7ab271/' },
-  }
-]
+  */
+];
 
 const About = () => {
   return (
@@ -151,7 +166,9 @@ const About = () => {
             </div>
 
             <div>
-              <p className="font-semibold text-lg font-serif">NON-PROFIT ORGANIZATIONS</p>
+              <p className="font-semibold text-lg font-serif">
+                NON-PROFIT ORGANIZATIONS
+              </p>
               <p>Clients</p>
             </div>
 
@@ -181,45 +198,65 @@ const About = () => {
             </h3>
 
             <div className="text-left">
-              <h4 className="mb-1 font-semibold text-lg">Tailored Experience</h4>
-              <p className="text-sm mt-2">Every event reflects the client&apos;s unique tastes and preferences.</p>
+              <h4 className="mb-1 font-semibold text-lg">
+                Tailored Experience
+              </h4>
+              <p className="text-sm mt-2">
+                Every event reflects the client&apos;s unique tastes and
+                preferences.
+              </p>
               <div className="border-t border-[#ccc] my-2"></div>
             </div>
 
             <div className="text-left">
               <h4 className="mb-1 font-semibold text-lg">Customizable Menus</h4>
               <p className="text-sm mt-2">
-                Catering solutions crafted to accommodate diverse dietary needs and cultural nuances.
+                Catering solutions crafted to accommodate diverse dietary needs
+                and cultural nuances.
               </p>
               <div className="border-t border-[#ccc] my-2"></div>
             </div>
 
             <div className="text-left">
-              <h4 className="mb-1 font-semibold text-lg">Tailored Experience</h4>
-              <p className="text-sm mt-2">Every event reflects the client&apos;s unique tastes and preferences.</p>
-              <div className="border-t border-[#ccc] my-2"></div>
-            </div>
-
-            <div className="text-left">
-              <h4 className="mb-1 font-semibold text-lg">Industry Innovation</h4>
+              <h4 className="mb-1 font-semibold text-lg">
+                Tailored Experience
+              </h4>
               <p className="text-sm mt-2">
-                We leverage modern trends and technology to enhance the event experience.
+                Every event reflects the client&apos;s unique tastes and
+                preferences.
               </p>
               <div className="border-t border-[#ccc] my-2"></div>
             </div>
 
             <div className="text-left">
-              <h4 className="mb-1 font-semibold text-lg">Reliability and Efficiency</h4>
+              <h4 className="mb-1 font-semibold text-lg">
+                Industry Innovation
+              </h4>
               <p className="text-sm mt-2">
-                A streamlined approach to logistics ensures everything is executed seamlessly.
+                We leverage modern trends and technology to enhance the event
+                experience.
               </p>
               <div className="border-t border-[#ccc] my-2"></div>
             </div>
 
             <div className="text-left">
-              <h4 className="mb-1 font-semibold text-lg">Client-Centered Approach</h4>
+              <h4 className="mb-1 font-semibold text-lg">
+                Reliability and Efficiency
+              </h4>
               <p className="text-sm mt-2">
-                Personalized attention and strong relationships remain our hallmark.
+                A streamlined approach to logistics ensures everything is
+                executed seamlessly.
+              </p>
+              <div className="border-t border-[#ccc] my-2"></div>
+            </div>
+
+            <div className="text-left">
+              <h4 className="mb-1 font-semibold text-lg">
+                Client-Centered Approach
+              </h4>
+              <p className="text-sm mt-2">
+                Personalized attention and strong relationships remain our
+                hallmark.
               </p>
             </div>
           </div>
@@ -323,32 +360,35 @@ const About = () => {
 
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default About
-
+export default About;
 
 const TeamMembersList = ({ cards }: { cards: TeamMember[] }) => {
-  const [selectedCard, setSelectedCard] = useState<TeamMember | null>(null)
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const [selectedCard, setSelectedCard] = useState<TeamMember | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const handleCardClick = (card?: TeamMember) => {
     if (card) {
-      setSelectedCard(card)
-      dialogRef.current?.showModal()
+      setSelectedCard(card);
+      dialogRef.current?.showModal();
     } else {
-      setSelectedCard(null)
-      dialogRef.current?.close()
+      setSelectedCard(null);
+      dialogRef.current?.close();
     }
-  }
+  };
 
   return (
     <div className="gap-6 justify-center flex flex-wrap w-full overflow-hidden">
       {cards.map((card) => (
         <Card
           key={card.id}
-          className={cn("w-96 border-none shadow-none", "group hover:bg-brand", "transition-all")}
+          className={cn(
+            "w-96 border-none shadow-none",
+            "group hover:bg-brand",
+            "transition-all",
+          )}
           onClick={() => handleCardClick(card)}
         >
           <CardContent className="p-6">
@@ -358,7 +398,11 @@ const TeamMembersList = ({ cards }: { cards: TeamMember[] }) => {
                 alt={card.name}
                 height={200}
                 width={100}
-                className={cn("transition-all duration-200", "w-full h-full object-center object-cover", "group-hover:scale-105")}
+                className={cn(
+                  "transition-all duration-200",
+                  "w-full h-full object-center object-cover",
+                  "group-hover:scale-105",
+                )}
               />
             </div>
           </CardContent>
@@ -366,7 +410,9 @@ const TeamMembersList = ({ cards }: { cards: TeamMember[] }) => {
           <CardFooter className="group-hover:text-white transition-all flex flex-col gap-2 items-start">
             <div>
               <CardTitle>{card.name}</CardTitle>
-              <CardDescription className="group-hover:text-white text-base">{card.designation}</CardDescription>
+              <CardDescription className="group-hover:text-white text-base">
+                {card.designation}
+              </CardDescription>
             </div>
             <div className="text-white text-sm group-hover:text-brand-light font-medium flex items-center gap-2">
               Read More <ArrowRightIcon size={16} />
@@ -403,7 +449,10 @@ const TeamMembersList = ({ cards }: { cards: TeamMember[] }) => {
                     alt={selectedCard.name}
                     height={200}
                     width={100}
-                    className={cn("transition-all duration-200", "w-full h-full object-center object-cover")}
+                    className={cn(
+                      "transition-all duration-200",
+                      "w-full h-full object-center object-cover",
+                    )}
                   />
                 )}
               </div>
@@ -412,65 +461,78 @@ const TeamMembersList = ({ cards }: { cards: TeamMember[] }) => {
             <CardFooter className="p-0 group-hover:text-white transition-all flex flex-col gap-2 items-start">
               <div>
                 <CardTitle className="text-lg">{selectedCard?.name}</CardTitle>
-                <CardDescription className="group-hover:text-white text-base">{selectedCard?.designation}</CardDescription>
+                <CardDescription className="group-hover:text-white text-base">
+                  {selectedCard?.designation}
+                </CardDescription>
               </div>
               <div className="text-brand text-sm group-hover:text-brand-light font-medium flex items-center gap-2">
                 <a target="_blank" href={selectedCard?.socialLinks.linkedin}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"></path></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"
+                    ></path>
+                  </svg>
                 </a>
               </div>
             </CardFooter>
           </Card>
 
           <div className="flex-1 h-full w-full flex flex-col gap-6">
-            <p className="text-xl text-neutral-500 font-semibold capitalize">Background &amp; Education</p>
+            <p className="text-xl text-neutral-500 font-semibold capitalize">
+              Background &amp; Education
+            </p>
             <p className="text-sm text-start">{selectedCard?.description}</p>
           </div>
         </div>
       </dialog>
     </div>
-  )
-}
-
+  );
+};
 
 const BoardMembersList = ({ cards }: { cards: BoardMember[] }) => {
-  const [activeId, setActiveId] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const toggleCard = (id: string) => {
-    setActiveId((prev) => (prev === id ? null : id))
-  }
+    setActiveId((prev) => (prev === id ? null : id));
+  };
 
   const variants: Variants = {
     visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
     hidden: { opacity: 0, x: -20 },
     exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
-  }
+  };
 
   const textContentVariants = {
     visible: {
-      minWidth: '180px',
-      rotate: '-90deg',
-      position: 'absolute' as const,
-      bottom: '60px',
+      minWidth: "180px",
+      rotate: "-90deg",
+      position: "absolute" as const,
+      bottom: "60px",
       left: -45,
       transition: { duration: 0.2 },
     },
     hidden: {
-      maxWidth: '100%',
-      rotate: '0deg',
+      maxWidth: "100%",
+      rotate: "0deg",
       transition: { duration: 0.2 },
     },
-  }
+  };
 
   const textVariants = {
-    visible: { width: '100%', whiteSpace: 'wrap' as const },
-    hidden: { width: '100%', whiteSpace: 'normal' as const },
-  }
+    visible: { width: "100%", whiteSpace: "wrap" as const },
+    hidden: { width: "100%", whiteSpace: "normal" as const },
+  };
 
   return (
     <div className="gap-6 justify-between flex w-full overflow-hidden">
       {cards.map((card) => {
-        const isActive = activeId === card.id
+        const isActive = activeId === card.id;
         return (
           <Card
             key={card.id}
@@ -496,17 +558,26 @@ const BoardMembersList = ({ cards }: { cards: BoardMember[] }) => {
                 alt={card.name}
                 height={200}
                 width={100}
-                className={cn("inset-0 w-full h-full object-cover", !isActive && "absolute")}
+                className={cn(
+                  "inset-0 w-full h-full object-cover",
+                  !isActive && "absolute",
+                )}
               />
             </Card>
 
             <motion.div
               variants={textContentVariants}
               animate={activeId ? (isActive ? "hidden" : "visible") : "hidden"}
-              className={cn("absolute bottom-2 left-2 text-white p-2 rounded z-20")}
+              className={cn(
+                "absolute bottom-2 left-2 text-white p-2 rounded z-20",
+              )}
             >
-              <motion.div variants={textVariants} className="font-bold">{card.name}</motion.div>
-              <motion.div variants={textVariants} className="text-sm">{card.designation}</motion.div>
+              <motion.div variants={textVariants} className="font-bold">
+                {card.name}
+              </motion.div>
+              <motion.div variants={textVariants} className="text-sm">
+                {card.designation}
+              </motion.div>
             </motion.div>
 
             <AnimatePresence>
@@ -525,8 +596,8 @@ const BoardMembersList = ({ cards }: { cards: BoardMember[] }) => {
               )}
             </AnimatePresence>
           </Card>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
