@@ -501,37 +501,6 @@ export default function BrandClient({ categories }: BrandClientProps) {
         </div>
       </section>
 
-      <section className="w-full lg:px-40 px-6 mx-auto py-16 border-b border-[#211434]/5">
-        <div className="grid gap-10 lg:grid-cols-[1fr_2.5fr] lg:items-start">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#2A1C51]/60">
-              Focus Areas
-            </p>
-            <h2 className="mt-3.5 text-2xl sm:text-3xl font-bold leading-tight text-[#211434]">
-              What this includes
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-[#211434]/70 max-w-sm">
-              We focus on delivering high-fidelity mockups and materials that serve key applications, from identity rollout to campaign activations.
-            </p>
-          </div>
-
-          <div className="grid gap-6 grid-cols-2 md:grid-cols-4">
-            {BRAND_SERVICES.map((service, index) => (
-              <div
-                key={service}
-                className="group flex flex-col justify-between rounded-2xl border border-[#211434]/5 bg-white p-5 hover:border-transparent hover:shadow-[0_15px_40px_-10px_rgba(33,20,52,0.08)] transition-all duration-300 hover:-translate-y-0.5"
-              >
-                <span className="text-2xl font-black text-[#EDCC19]/70 group-hover:text-[#2A1C51] transition-colors">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-8 text-sm sm:text-base font-bold text-[#211434] leading-snug">
-                  {service}
-                </h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section id="visual-library" className="w-full lg:px-40 px-6 mx-auto py-14 md:py-20">
         {allImages.length > 0 ? (
@@ -563,6 +532,10 @@ export default function BrandClient({ categories }: BrandClientProps) {
                 </TabsTrigger>
               ))}
             </TabsList>
+
+            <p className="text-center text-xs md:text-sm text-[#211434]/55 mb-10 mt-6 leading-relaxed px-4">
+              What this includes: <span className="font-semibold text-[#211434]">Identity application</span> • <span className="font-semibold text-[#211434]">Campaign materials</span> • <span className="font-semibold text-[#211434]">Branded apparel</span> • <span className="font-semibold text-[#211434]">Presentation mockup</span>
+            </p>
 
             <TabsContent value="all">
               <ImageGrid items={allImages} cart={cart} onToggleCart={toggleCart} />
