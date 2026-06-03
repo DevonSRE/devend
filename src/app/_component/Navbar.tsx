@@ -21,7 +21,7 @@ export default function Navbar() {
     { href: "/about", text: "About Us" },
     { href: "/stories", text: "Client Stories" },
     { href: "/contact", text: "Contact" },
-    { href: "/brand", text: "Brand" },
+    { href: "/brand", text: "Marketplace" },
   ]
 
   return (
