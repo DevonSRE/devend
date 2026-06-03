@@ -219,8 +219,8 @@ export default function LogisticsForm() {
             </p>
             <p>
               Telephone:{" "}
-              <a href="tel:+2348068447200" className="font-medium">
-                +234 806 844 7200
+              <a href="tel:+2348034938139" className="font-medium">
+          +2348034938139
               </a>
             </p>
           </div>

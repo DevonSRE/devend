@@ -20,7 +20,7 @@ const Footer = ({ showForm = true }: FooterProps) => {
                 </div>
                 <div>
                   <p className="text-sm">Telephone:</p>
-                  <p className="text-lg"><a href="tel:+234 806 844 7200">+234 806 844 7200</a></p>
+                  <p className="text-lg"><a href="tel:+2348034938139">+234 803 493 8139</a></p>
                 </div>
               </div>
               <div className="border-t border-[#ccccc] my-10" />
