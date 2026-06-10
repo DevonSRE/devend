@@ -9,21 +9,30 @@ export interface CategoryImages {
 const IMAGE_EXTENSIONS = /\.(png|jpe?g|webp|svg)$/i
 
 export async function getBrandImages(): Promise<CategoryImages[]> {
-  const brandDir = path.join(process.cwd(), "public/brand")
+  const shopimgDir = path.join(process.cwd(), "public/brand/shopimg")
   try {
-    const entries = fs.readdirSync(brandDir, { withFileTypes: true })
-    const categories: CategoryImages[] = []
+    const files = fs.readdirSync(shopimgDir).filter((f) => IMAGE_EXTENSIONS.test(f))
 
-    for (const entry of entries) {
-      if (!entry.isDirectory()) continue
-      const categoryPath = path.join(brandDir, entry.name)
-      const files = fs.readdirSync(categoryPath).filter((f) => IMAGE_EXTENSIONS.test(f))
-      if (files.length > 0) {
-        categories.push({ category: entry.name, images: files })
+    const shirts: string[] = []
+    const notebooks: string[] = []
+    const cups: string[] = []
+
+    for (const file of files) {
+      const lower = file.toLowerCase()
+      if (lower.startsWith("m")) {
+        cups.push(file)
+      } else if (lower.startsWith("b") || lower.includes("(1)")) {
+        notebooks.push(file)
+      } else if (lower.startsWith("n")) {
+        shirts.push(file)
       }
     }
 
-    return categories
+    return [
+      { category: "shirts", images: shirts },
+      { category: "notebooks", images: notebooks },
+      { category: "cups", images: cups },
+    ]
   } catch {
     return []
   }

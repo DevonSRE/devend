@@ -54,7 +54,43 @@ const INITIAL_FORM: FormState = {
 const ENQUIRY_EMAIL = "info@dev-end.org";
 const ENQUIRY_PHONES = ["0803 493 8139"];
 
+const IMAGE_LABEL_MAP: Record<string, string> = {
+  "M1.png": "Cups - we move forward",
+  "M2.png": "Cups - no justice no rest",
+  "m3.png": "Cups - leaders in progress 2",
+  "M4.png": "Cups - built different!",
+  "M5.png": "Cups - access is not a privilege",
+  "M6.png": "Cups - beta life by design",
+  "M7.png": "Cups - young. loud. ready.",
+  "m8.png": "Cups - future no dey wait",
+  "m9.png": "Cups - power no be age",
+  "m10.png": "Cups - leaders in progress",
+  "m11.png": "Cups - our money our right",
+  "M12.png": "Cups - we dey watch",
+  "b1.png": "Book - branding design 1",
+  "b2.png": "Book - branding design 2",
+  "n1(1).png": "Notebook - ideas change system",
+  "N2(1).png": "Notebook - write it down",
+  "N3(1).png": "Notebook - think. act. change.",
+  "n1.png": "Shirt - na we get government",
+  "n2.png": "Shirt - our money our right",
+  "N3.png": "Shirt - we dey watch",
+  "n4.png": "Shirt - justice no be privilege orange",
+  "N5.png": "Shirt - everyone count",
+  "n6.png": "Shirt - equal means equal",
+  "n7.png": "Shirt - this is our time",
+  "N8.png": "Shirt - justice no be privilege blue",
+  "n9.png": "Shirt - beta life by design",
+  "n10.png": "Shirt - access is not a privilege",
+  "n11.png": "Shirt - young. loud. ready.",
+  "n12.png": "Shirt - future no dey wait",
+  "N14.png": "Shirt - leaders in progress",
+};
+
 function getImageLabel(image: string) {
+  if (IMAGE_LABEL_MAP[image]) {
+    return IMAGE_LABEL_MAP[image];
+  }
   return image
     .replace(/\.[a-zA-Z]+$/, "")
     .replace(/[_-]+/g, " ")
@@ -93,7 +129,7 @@ function ImageGrid({ items, cart, onToggleCart }: ImageGridProps) {
             <div className="p-4 pb-0">
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[18px] bg-[#F7F2E7]">
                 <Image
-                  src={`/brand/${item.category}/${item.filename}`}
+                  src={`/brand/shopimg/${item.filename}`}
                   alt={getImageLabel(item.filename)}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
@@ -218,7 +254,14 @@ function capitalize(str: string) {
 }
 
 export default function BrandClient({ categories }: BrandClientProps) {
-  const allImages = categories.flatMap((cat) =>
+  const orderedCategories = [...categories].sort((a, b) => {
+    const order = ["shirts", "notebooks", "cups"];
+    const aIndex = order.indexOf(a.category.toLowerCase());
+    const bIndex = order.indexOf(b.category.toLowerCase());
+    return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex);
+  });
+
+  const allImages = orderedCategories.flatMap((cat) =>
     cat.images.map((filename) => ({ category: cat.category, filename }))
   );
   const [modalOpen, setModalOpen] = useState(false);
@@ -258,7 +301,7 @@ export default function BrandClient({ categories }: BrandClientProps) {
             ...prev,
             {
               id,
-              src: `/brand/${item.category}/${item.filename}`,
+              src: `/brand/shopimg/${item.filename}`,
               startX,
               startY,
             },
@@ -385,14 +428,14 @@ export default function BrandClient({ categories }: BrandClientProps) {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full aspect-[2/1] z-0 overflow-hidden rounded-t-full pointer-events-none select-none bg-gradient-to-t from-[#EDCC19]/10 via-[#F7F2E7]/30 to-transparent shadow-[0_-15px_35px_-15px_rgba(237,204,25,0.15)]">
           <div className="grid h-full grid-cols-4 grid-rows-2 gap-1.5 p-1.5">
             {[
-              "/brand/shirts/Mockup shirts - justice no be privilege blue.png",
-              "/brand/cups/Mockup cups - beta life by design.png",
-              "/brand/notebooks/Mockup notebooks - think. act. change..png",
-              "/brand/shirts/Mockup SHirts-Accountability_White_ Roundneck.jpg",
-              "/brand/shirts/Mockup SHirts-Accountability_Black_ Roundneck.jpg",
-              "/brand/cups/Mockup cups - built different!.png",
-              "/brand/notebooks/Mockup notebooks - ideas change system.png",
-              "/brand/shirts/Mockup shirts - beta life by design.png",
+              "/brand/shopimg/N8.png",
+              "/brand/shopimg/M6.png",
+              "/brand/shopimg/N3(1).png",
+              "/brand/shopimg/n11.png",
+              "/brand/shopimg/n10.png",
+              "/brand/shopimg/M4.png",
+              "/brand/shopimg/n1(1).png",
+              "/brand/shopimg/n9.png",
             ].map((src, index) => {
               const isCenter = index === 1 || index === 2 || index === 5 || index === 6;
               if (isCenter) {
@@ -517,7 +560,7 @@ export default function BrandClient({ categories }: BrandClientProps) {
                   {allImages.length}
                 </span>
               </TabsTrigger>
-              {categories.map((cat) => (
+              {orderedCategories.map((cat) => (
                 <TabsTrigger
                   key={cat.category}
                   value={cat.category}
@@ -541,7 +584,7 @@ export default function BrandClient({ categories }: BrandClientProps) {
               <ImageGrid items={allImages} cart={cart} onToggleCart={toggleCart} />
             </TabsContent>
 
-            {categories.map((cat) => (
+            {orderedCategories.map((cat) => (
               <TabsContent key={cat.category} value={cat.category}>
                 <ImageGrid
                   items={cat.images.map((filename) => ({ category: cat.category, filename }))}
@@ -842,7 +885,7 @@ export default function BrandClient({ categories }: BrandClientProps) {
                 >
                   <div className="relative aspect-[4/3] w-20 overflow-hidden rounded-xl bg-[#F7F2E7] flex-shrink-0">
                     <Image
-                      src={`/brand/${item.category}/${item.filename}`}
+                      src={`/brand/shopimg/${item.filename}`}
                       alt={getImageLabel(item.filename)}
                       fill
                       sizes="80px"
